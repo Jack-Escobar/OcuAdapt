@@ -1,0 +1,46 @@
+body { margin: 0; font-family: Arial, sans-serif; font-size: 16px; background: #fff; color: #222; }
+.site-header { padding: 1rem 1.5rem; background: #f4f4f4; border-bottom: 1px solid #ddd; }
+.site-header h1 { margin: 0 0 .25rem; font-size: 22px; }
+.gris-a { color: #777; }
+.fixed-layout { width: 1100px; padding: 1rem 1.5rem; }
+section { margin-bottom: 2rem; }
+h2 { font-size: 18px; }
+
+/* B1 / B2 */
+.b1-text { color: rgb(159, 159, 159); font-size: 15px; }
+.b2-text { color: #949494; font-size: 15px; }
+.b2-small { color: #949494; font-size: 12px; }
+.on-dark { background: #1b2a4a; color: #6c7a99; padding: .5rem; font-size: 14px; }
+
+/* B3: ancho fijo y overflow oculto → el formulario se pierde al ampliar */
+.fixed-form { width: 360px; height: 190px; overflow: hidden; border: 1px solid #ccc; padding: 8px; position: relative; }
+.note-fixed { font-size: 12px; margin: 0 0 6px; color: #444; }
+.login { position: absolute; top: 56px; left: 8px; width: 340px; }
+.login .lbl { display: inline-block; width: 90px; font-size: 12px; }
+.login input { width: 200px; margin-bottom: 6px; font-size: 12px; }
+.login button { font-size: 12px; margin-left: 90px; }
+
+/* B4: se elimina el foco */
+.nofocus a, .nofocus button { outline: none; margin-right: 1rem; color: #0645ad; }
+.nofocus button { background: #eee; border: 1px solid #aaa; padding: 4px 10px; }
+
+/* B6 */
+.turnos { list-style: none; padding: 0; }
+.turnos li { margin: .4rem 0; font-size: 15px; }
+.dot { display: inline-block; width: 18px; height: 18px; border-radius: 50%; vertical-align: middle; margin-right: 8px; }
+.dot.ok { background: #00a04a; }
+.dot.wait { background: #e6a000; }
+.dot.bad { background: #d02020; }
+.hint { color: #555; font-size: 14px; }
+
+/* Panel */
+#panel { position: sticky; top: 0; z-index: 1000; background: #fff; border: 2px solid #222; margin: .5rem; padding: .5rem 1rem; max-width: 52rem; color: #111; }
+#panel h2 { margin: 0 0 .25rem; }
+#panel .grid { display: grid; grid-template-columns: auto 1fr; gap: .5rem 1rem; align-items: center; }
+#panel .btns { margin: .5rem 0; display: flex; gap: .5rem; flex-wrap: wrap; }
+#panel button { min-height: 2.5rem; padding: 0 1rem; font: inherit; border: 2px solid #222; background: #fff; color: #111; cursor: pointer; }
+#panel table { border-collapse: collapse; width: 100%; font-size: 14px; }
+#panel th, #panel td { border: 1px solid #555; padding: 4px 6px; text-align: left; }
+.sw { display: inline-block; width: 1.5rem; height: 1.5rem; border: 1px solid #000; vertical-align: middle; }
+.ok-t { color: #0a5a1e; font-weight: 700; }
+.bad-t { color: #8a0f0f; font-weight: 700; }

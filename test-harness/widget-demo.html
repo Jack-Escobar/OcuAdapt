@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OcuAdapt – Demo del widget institucional</title>
+    <link rel="stylesheet" href="harness.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>Portal institucional (demo del widget)</h1>
+      <p>Integración en una línea: un script y la etiqueta <code>&lt;ocuadapt-widget&gt;</code>. Use el botón flotante inferior derecho.</p>
+    </header>
+    <main style="padding:1rem 1.5rem; max-width: 50rem">
+      <h2>Texto con contraste insuficiente</h2>
+      <p class="b1-text">Información del trámite con texto gris claro (2,65:1).</p>
+      <h2>Estados solo por color</h2>
+      <ul class="turnos">
+        <li><span class="dot ok" data-state="aprobado"></span> Cita 1</li>
+        <li><span class="dot wait" data-state="pendiente"></span> Cita 2</li>
+        <li><span class="dot bad" data-state="rechazado"></span> Cita 3</li>
+      </ul>
+      <p><a href="#" class="nofocus-link">Enlace de ejemplo</a></p>
+    </main>
+    <ocuadapt-widget lang="es" font-base-url="../widget/"></ocuadapt-widget>
+    <script src="../widget/ocuadapt-widget.js" defer></script>
+  </body>
+</html>

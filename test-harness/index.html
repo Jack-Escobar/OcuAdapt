@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OcuAdapt – Banco de pruebas de barreras</title>
+    <link rel="stylesheet" href="harness.css" />
+  </head>
+  <body>
+    <!-- Panel de control: excluido de la adaptación para no alterar las mediciones -->
+    <aside id="panel" data-ocuadapt="harness-panel" aria-labelledby="panel-title">
+      <h2 id="panel-title">Panel del banco de pruebas</h2>
+      <p class="hint">Aplica el núcleo de OcuAdapt directamente en esta página (sin instalar la extensión) y mide los resultados.</p>
+      <div class="grid">
+        <label for="p-preset">Perfil</label>
+        <select id="p-preset">
+          <option value="normal" selected>Visión normal (sin cambios / para probar extensión)</option>
+          <option value="lowVision">Baja visión (AA, 150 %, foco, estados)</option>
+          <option value="protanopia">Protanopia (rojo)</option>
+          <option value="deuteranopia">Deuteranopia (verde)</option>
+          <option value="tritanopia">Tritanopia (azul)</option>
+          <option value="inverted">Alto contraste invertido</option>
+          <option value="redundant">Solo estados (icono + patrón + texto)</option>
+          <option value="all">Todo (AA + 200 % + foco + deuteranopia + estados)</option>
+        </select>
+        <label for="p-redundant">Estados redundantes (icono/patrón/texto)</label>
+        <input type="checkbox" id="p-redundant" />
+        <label for="p-mask">Guía de lectura</label>
+        <input type="checkbox" id="p-mask" />
+      </div>
+      <div class="btns">
+        <button type="button" id="b-apply">Aplicar</button>
+        <button type="button" id="b-reset">Restablecer</button>
+        <button type="button" id="b-measure">Medir (T1/T3/T4)</button>
+      </div>
+      <div id="results" role="status" aria-live="polite"></div>
+    </aside>
+
+    <header class="site-header">
+      <h1>Portal de servicios de salud (maqueta de prueba)</h1>
+      <p class="gris-a">Esta página replica barreras documentadas en la auditoría. No es un sitio real.</p>
+    </header>
+
+    <main class="fixed-layout">
+      <!-- B1: contraste ≈ 2,65:1 (rgb 159,159,159 sobre blanco) – caso Campus CONADIS -->
+      <section id="b1">
+        <h2>B1 · Texto gris claro sobre blanco</h2>
+        <p class="b1-text">Consulte aquí los requisitos para su trámite. Este bloque informativo usa texto gris claro con una razón de contraste aproximada de 2,65:1.</p>
+        <p class="b1-text">Segundo párrafo informativo con el mismo color insuficiente.</p>
+      </section>
+
+      <!-- B2: contraste ≈ 2,94:1 (#949494 sobre blanco) – caso portal hospitalario -->
+      <section id="b2">
+        <h2>B2 · Contraste 2,94:1</h2>
+        <p class="b2-text">Noticias y avisos del establecimiento con texto gris medio.</p>
+        <p class="b2-small">Texto pequeño de pie de sección, también con contraste insuficiente.</p>
+        <p class="on-dark">Texto gris sobre fondo azul oscuro (contraste insuficiente).</p>
+      </section>
+
+      <!-- B3: diseño de ancho fijo; con texto ampliado el formulario se corta -->
+      <section id="b3">
+        <h2>B3 · Formulario en diseño de ancho fijo</h2>
+        <div class="fixed-form">
+          <p class="note-fixed">Ingrese sus datos para acceder.</p>
+          <form onsubmit="return false" class="login">
+            <label for="dni" class="lbl">DNI</label>
+            <input id="dni" type="text" inputmode="numeric" />
+            <label for="clave" class="lbl">Contraseña</label>
+            <input id="clave" type="password" />
+            <button type="submit" id="entrar">Ingresar</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- B4: sin indicador de foco -->
+      <section id="b4">
+        <h2>B4 · Controles sin indicador de foco</h2>
+        <p>Use la tecla Tab: estos controles no muestran foco visible.</p>
+        <nav class="nofocus" aria-label="Enlaces de prueba">
+          <a href="#b1" id="nf-a1">Inicio</a>
+          <a href="#b2" id="nf-a2">Citas</a>
+          <a href="#b3" id="nf-a3">Resultados</a>
+          <button type="button" id="nf-btn">Imprimir</button>
+        </nav>
+      </section>
+
+      <!-- B6: estados solo por color -->
+      <section id="b6">
+        <h2>B6 · Estados codificados solo por color</h2>
+        <ul class="turnos">
+          <li><span class="dot ok" data-state="aprobado"></span> Cita 1</li>
+          <li><span class="dot wait" data-state="pendiente"></span> Cita 2</li>
+          <li><span class="dot bad" data-state="rechazado"></span> Cita 3</li>
+        </ul>
+        <p class="hint">Rojo y verde son difíciles de distinguir con deuteranopia/protanopia. La codificación redundante (icono/patrón/texto) es MVP-1.</p>
+      </section>
+    </main>
+
+    <script src="harness.js"></script>
+  </body>
+</html>

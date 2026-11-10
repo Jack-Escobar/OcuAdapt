@@ -1,0 +1,97 @@
+# ==============================================================================
+# OcuAdapt - .gitignore
+# Repositorio del proyecto OcuAdapt: Adaptación visual del lado del usuario
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Documentos internos / académicos del curso (Exclusión estricta)
+# ------------------------------------------------------------------------------
+lineamientos_cap7_cap8_grupo2.md
+propuesta_ideacion_grupo2_OcuAdapt.md
+*lineamientos*.md
+*propuesta_ideacion*.md
+
+# ------------------------------------------------------------------------------
+# 2. Dependencias de Node.js
+# ------------------------------------------------------------------------------
+node_modules/
+.pnp/
+.pnp.js
+
+# ------------------------------------------------------------------------------
+# 3. Compilados y empaquetados de distribución (Build outputs)
+# ------------------------------------------------------------------------------
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# ------------------------------------------------------------------------------
+# 4. Logs de depuración y ejecución
+# ------------------------------------------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# 5. Pruebas y cobertura de código
+# ------------------------------------------------------------------------------
+coverage/
+.nyc_output/
+*.lcov
+.vitest/
+
+# ------------------------------------------------------------------------------
+# 6. Variables de entorno y secretos
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.cert
+
+# ------------------------------------------------------------------------------
+# 7. Configuración de Editores e IDEs
+# ------------------------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ------------------------------------------------------------------------------
+# 8. Archivos temporales y del Sistema Operativo
+# ------------------------------------------------------------------------------
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux / Temporales generales
+*~
+*.tmp
+*.temp
+*.bak
+*.orig
