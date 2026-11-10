@@ -73,4 +73,19 @@ build.mjs        genera dist/ (extensión, dist/widget, dist/test-harness)
   1. Exclusiones académicas confidenciales: exclusión estricta de `lineamientos_cap7_cap8_grupo2.md` y `propuesta_ideacion_grupo2_OcuAdapt.md` (y comodines correspondientes).
   2. Artefactos de desarrollo y distribución: exclusión de `node_modules/`, `dist/`, logs (`*.log`), cachés de pruebas (`coverage/`, `.vitest/`), configuraciones de IDEs y archivos de sistema operativo (`.DS_Store`, `Thumbs.db`).
   3. Verificación con Git: repositorio Git inicializado (`git init`) y verificado con `git check-ignore -v` y `git status -s`, confirmando que los archivos de lineamientos, propuesta, dependencias y dist quedan totalmente ignorados y protegidos para el commit inicial.
+- 2026-11-10 09:30 – Diseño y construcción del mockup conceptual móvil OcuAdapt Lupa (RF-12 / M7):
+  1. Simulador interactivo en navegador (`test-harness/mobile-mockup.html` y `dist/test-harness/mobile-mockup.html`): simulación de chasis móvil con dos pantallas clave: M7-A (visor de cámara con congelado Freeze Frame, flash, brackets ROI y filtros croma amarillo/negro a 18.5:1) y M7-B (texto reflujado OCR en Atkinson Hyperlegible al 250 %, reproductor TTS con Web Speech API real en español y banner crítico de seguridad farmacológica).
+  2. Generación de mockups en alta resolución (`test-harness/mockups/mockup_lupa_camara.jpg` y `test-harness/mockups/mockup_lupa_ocr_tts.jpg`): imágenes conceptuales listas para insertar en el informe Word con normas APA 7.
+  3. Actualización de documentación: sección 7.8.4 y Tabla 7.10 en `documentacion_cap7_OcuAdapt.md` ampliadas con especificación UI/UX, ergonomía táctil (48x48 dp) y contrastes fotométricos WCAG 2.2 AAA.
+- 2026-11-10 09:45 – Creación del mockup del widget institucional OcuAdapt (<ocuadapt-widget>, M8 / RF-11):
+  1. Entorno de mockup institucional (`test-harness/widget-mockup.html` y `dist/test-harness/widget-mockup.html`): simulación de portal web de EsSalud (Hospital Nacional Ramiro Prialé Prialé de Huancayo) con el botón flotante accesible (FAB de 54x54 px con WCAG 2.5.5) y panel desplegable integrado con controles fotométricos en vivo.
+  2. Barra de asistencia para captura: botones superiores para alternar entre "Panel Abierto" (M8 principal), "Solo Botón Flotante" y "Portal con Alto Contraste", con función para ocultar controles y permitir la captura de pantalla limpia para el informe de Word.
+  3. Sincronización en build: empaquetado automático en `build.mjs`, actualización de la Tabla 7.10 en `documentacion_cap7_OcuAdapt.md` y verificación de pruebas (29/29 OK).
+- 2026-11-10 10:15 – Creación de `README.md` profesional para distribución pública del repositorio:
+  1. Guía de instalación paso a paso para usuarios y evaluadores mediante carga de extensión descomprimida en navegadores Chromium (Chrome, Edge, Brave) y activación de permisos de archivo local.
+  2. Documentación detallada de los controles del panel popup y su correspondencia con criterios de conformidad WCAG 2.2 AA y AAA.
+  3. Instrucciones de uso del banco de pruebas local (`test-harness/`), guía técnica para desarrolladores (npm scripts, arquitectura modular en TypeScript puro), tabla de criterios de accesibilidad y avisos legales, éticos y de licenciamiento (MIT y SIL OFL).
+
+
+
 

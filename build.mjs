@@ -38,7 +38,10 @@ cpSync('src/extension/popup/popup.css', 'dist/popup/popup.css');
 cpSync('src/extension/colortest/colortest.html', 'dist/colortest/colortest.html');
 cpSync('src/extension/colortest/colortest.css', 'dist/colortest/colortest.css');
 cpSync('test-harness/widget-demo.html', 'dist/test-harness/widget-demo.html');
+cpSync('test-harness/widget-mockup.html', 'dist/test-harness/widget-mockup.html');
 cpSync('test-harness/index.html', 'dist/test-harness/index.html');
+cpSync('test-harness/mobile-mockup.html', 'dist/test-harness/mobile-mockup.html');
+if (existsSync('test-harness/mockups')) cpSync('test-harness/mockups', 'dist/test-harness/mockups', { recursive: true });
 cpSync('test-harness/harness.css', 'dist/test-harness/harness.css');
 cpSync('dist/test-harness/harness.js', 'test-harness/harness.js');
 

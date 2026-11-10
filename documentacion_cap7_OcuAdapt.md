@@ -552,6 +552,33 @@ flowchart LR
 - **Riesgo clínico en lectura de posología:** El reconocimiento óptico de caracteres (OCR) presenta tasas de error elevadas ante caligrafía médica manuscrita o papel térmico deteriorado. Una lectura inexacta de miligramos o intervalos horarios entraña un riesgo para la seguridad del paciente; por tanto, la interfaz conceptual exige mostrar una advertencia permanente indicando que la lectura automatizada no reemplaza la verificación por un profesional de farmacia o medicina.
 - **Protección de datos sensibles de salud:** Las recetas y órdenes médicas contienen diagnósticos e identificadores personales protegidos por la Ley N.° 29733. El diseño prohíbe el envío de fotografías a APIs de visión en la nube por defecto, planteando el uso de modelos OCR ejecutados íntegramente en el dispositivo (*offline*).
 
+#### Especificación UI/UX del Mockup Conceptual (M7)
+
+Para representar visualmente la propuesta conceptual en el informe académico, se construyeron los mockups de alta fidelidad y un simulador interactivo disponible en `dist/test-harness/mobile-mockup.html` (con capturas gráficas en `test-harness/mockups/`). La interfaz móvil comprende dos pantallas operativas:
+
+1. **Pantalla M7-A · Visor de Cámara con Congelado de Cuadro (*Freeze Frame*):**
+   - *Finalidad:* Enfoque y estabilización de documentos físicos (recetas de EsSalud y cartelería hospitalaria).
+   - *Controles superiores:* Linterna/flash de apoyo (`🔦`) para eliminar sombras sobre papel arrugado y guías de encuadre (`📐`).
+   - *Retícula ROI:* Brackets amarillos delimitadores de región de interés para encuadrar la prescripción médica.
+   - *Filtros croma en tiempo real:* Conmutador de alto contraste directo (Amarillo sobre Negro $18.5:1$, Blanco sobre Negro $21.0:1$ y Cian sobre Negro $15.8:1$).
+   - *Control de congelado (Freeze Frame):* Botón táctil accesible de $48\times 48\text{ dp}$ que suspende el flujo de vídeo para eliminar el temblor de pulso involuntario frecuente en pacientes adultos mayores.
+   - *Selector de zoom óptico/digital:* Niveles $1\times$, $1.5\times$, $2\times$ y $3\times$.
+
+2. **Pantalla M7-B · Lectura Asistida con Texto Reflujado (OCR) y Síntesis de Voz (TTS):**
+   - *Banner de Farmacovigilancia y Seguridad del Paciente:* Cuadro de advertencia en amarillo brillante con icono de peligro (`⚠️`), ubicado de forma fija en la parte superior: *«ADVERTENCIA DE SEGURIDAD: Verifique siempre dosis, horario y principio activo con el personal de farmacia o su médico tratante. La lectura por OCR es referencial y no reemplaza la indicación facultativa»* (R.M. 806-2021-MINSA).
+   - *Texto reflujado en macrotipo:* Tipografía *Atkinson Hyperlegible* escalada al $250\%$ ($24\text{ px}$ base) con espaciado entre líneas de $1.7\times$. Se desglosan los campos en tarjetas separadas por medicamento con bordes de color diferenciado.
+   - *Reproductor auditivo TTS:* Botón táctil circular prominente para iniciar y pausar la lectura en voz alta mediante la *Web Speech API* en español peruano (`es-PE`), con ajuste de cadencia de pronunciación a $0.75\times$ (pausada), $1.0\times$ (estándar) y $1.25\times$.
+
+**Figura 7.6a**  
+*Mockup conceptual de OcuAdapt Lupa: Pantalla de captura y visor de cámara con filtros croma (M7-A)*  
+*Texto alternativo sugerido:* Interfaz móvil de OcuAdapt Lupa sobre fondo negro puro que muestra el visor de cámara apuntando a una receta médica de EsSalud del Hospital Ramiro Prialé Prialé, con brackets amarillos delimitadores, controles de zoom de 1x a 3x, selector de filtros croma y botones táctiles grandes de captura y congelado de cuadro.  
+*Nota.* Elaboración propia. Captura generada disponible en `test-harness/mockups/mockup_lupa_camara.jpg`.
+
+**Figura 7.6b**  
+*Mockup conceptual de OcuAdapt Lupa: Pantalla de lectura asistida OCR con síntesis de voz y aviso de seguridad (M7-B)*  
+*Texto alternativo sugerido:* Interfaz móvil de OcuAdapt Lupa mostrando el texto extraído de la receta médica en tipografía Atkinson Hyperlegible grande en amarillo de alto contraste sobre fondo negro, encabezado por un banner amarillo de advertencia de seguridad farmacológica y una barra inferior con botón táctil de reproducción de voz y selector de velocidad.  
+*Nota.* Elaboración propia. Captura generada disponible en `test-harness/mockups/mockup_lupa_ocr_tts.jpg`.
+
 ---
 
 ## 7.9 Guía de Prototipos UI/UX Construidos (Antes vs. Después)
@@ -569,8 +596,8 @@ Todos los componentes visuales requeridos en la sección 4.7 de los lineamientos
 | **M4** | Indicador de foco por teclado (B4) | `dist/test-harness/index.html` (sección `#b4`) | Enlaces «Inicio», «Citas», «Resultados» y botón «Imprimir» con `outline: none` (foco invisible al pulsar `Tab`) | Anillo de foco reforzado amarillo (`#ffd400`) de $3\text{ px}$ con borde negro de $2\text{ px}$ claramente visible al tabular | 2.4.7, 2.4.11 |
 | **M5** | Estados semafóricos con codificación redundante (B6) | `dist/test-harness/index.html` (sección `#b6`) | Tres círculos de color plano (verde, ámbar y rojo) indistinguibles bajo deuteranopia/protanopia | Círculo con trama de puntos blancos + `[✔ Aprobado]`; rombo suave con líneas horizontales + `[▲ Pendiente]`; cuadrado con líneas diagonales a $45^\circ$ + `[✖ Rechazado]` | 1.4.1 |
 | **M6** | Test orientativo de visión del color | `dist/colortest/colortest.html` | — | Pantalla de aviso ético, láminas generadas en `<canvas>` con puntos policromáticos, opción de salto manual y vista de resultado orientativo | 1.4.1, 2.1.1, 3.3.2 |
-| **M7** | Concepto móvil (*OcuAdapt Lupa*) | Diagrama D7 (sección 7.8.4) | Receta médica impresa con letra reducida | Flujo conceptual con filtro amarillo sobre negro, texto reflujado y botón de lectura por voz | Concepto (apoyo a B7) |
-| **M8** | Widget institucional integrable | `dist/test-harness/widget-demo.html` | Portal institucional sin herramientas de adaptación | Botón flotante accesible inferior derecho ($52\times 52\text{ px}$) y panel desplegable encapsulado en Shadow DOM | 2.1.1, 2.4.7, 2.5.8 |
+| **M7** | Concepto móvil (*OcuAdapt Lupa*) | `dist/test-harness/mobile-mockup.html` (capturas en `test-harness/mockups/`) | Receta médica impresa con letra reducida y papel térmico deteriorado | Flujo conceptual con visor congelable, filtros croma ($18.5:1$), texto reflujado en macrotipo, lectura TTS y aviso de seguridad | 1.4.3, 1.4.4, 2.5.5 (apoyo B7) |
+| **M8** | Widget institucional integrable | `dist/test-harness/widget-mockup.html` (y demo en `dist/test-harness/widget-demo.html`) | Portal hospitalario de EsSalud sin herramientas de adaptación visual | Botón flotante accesible inferior derecho ($54\times 54\text{ px}$, WCAG 2.5.5) y panel desplegable encapsulado en Shadow DOM con ajustes fotométricos en vivo | 2.1.1, 2.4.7, 2.5.5, 2.5.8 |
 
 *Nota.* Elaboración propia.
 

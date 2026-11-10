@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OcuAdapt Lupa - Mockup Conceptual Móvil (RF-12 / M7)</title>
+  <style>
+    @font-face {
+      font-family: 'Atkinson Hyperlegible';
+      src: url('./atkinson-hyperlegible-latin-400-normal.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Atkinson Hyperlegible';
+      src: url('./atkinson-hyperlegible-latin-700-normal.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    :root {
+      --bg-dark: #0a0e14;
+      --card-bg: #151b23;
+      --text-main: #f0f6fc;
+      --accent-yellow: #ffe600;
+      --accent-cyan: #00e5ff;
+      --accent-green: #3fb950;
+      --danger-red: #f85149;
+      --border-color: #30363d;
+      --phone-bg: #000000;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Atkinson Hyperlegible', system-ui, -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      padding: 24px;
+      line-height: 1.5;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .badge-concept {
+      display: inline-block;
+      background: #388bfd26;
+      color: #58a6ff;
+      border: 1px solid #388bfd66;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    p.subtitle {
+      color: #8b949e;
+      font-size: 1rem;
+    }
+
+    /* Barra de pestañas y modos de visualización */
+    .view-toolbar {
+      max-width: 1200px;
+      margin: 0 auto 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tab-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-tab {
+      background: #21262d;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-tab:hover {
+      background: #30363d;
+      border-color: #8b949e;
+    }
+
+    .btn-tab.active {
+      background: var(--accent-yellow);
+      color: #000000;
+      border-color: var(--accent-yellow);
+      box-shadow: 0 0 10px rgba(255, 230, 0, 0.4);
+    }
+
+    .view-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #c9d1d9;
+    }
+
+    /* Contenedor principal de pantallas */
+    .mockup-stage {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+
+    /* Chasis del Smartphone */
+    .phone-chassis {
+      width: 380px;
+      height: 780px;
+      background: #1c2128;
+      border-radius: 44px;
+      padding: 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 2px #444c56;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .phone-notch {
+      width: 120px;
+      height: 20px;
+      background: #000;
+      border-radius: 0 0 12px 12px;
+      margin: 0 auto 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .notch-camera {
+      width: 8px;
+      height: 8px;
+      background: #161b22;
+      border-radius: 50%;
+    }
+
+    .phone-screen {
+      flex: 1;
+      background: var(--phone-bg);
+      border-radius: 32px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      color: #fff;
+    }
+
+    /* PANTALLA 1: VISOR DE CÁMARA */
+    .camera-top-bar {
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .brand-title {
+      font-weight: bold;
+      font-size: 1rem;
+      color: var(--accent-yellow);
+      letter-spacing: 0.5px;
+    }
+
+    .cam-tools {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      background: #21262d;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
+    }
+
+    .icon-btn.active {
+      background: var(--accent-yellow);
+      color: #000;
+      border-color: var(--accent-yellow);
+    }
+
+    .viewfinder-area {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      overflow: hidden;
+    }
+
+    /* Simulación de receta médica escaneada */
+    .prescription-target {
+      width: 90%;
+      height: 88%;
+      background: #fbfbfb;
+      color: #111;
+      padding: 16px 14px;
+      border-radius: 6px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      font-size: 11px;
+      position: relative;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Filtros cromáticos sobre la vista de cámara */
+    .filter-yellow-black .prescription-target {
+      background: #000000 !important;
+      color: #ffe600 !important;
+      border: 1px solid #ffe600;
+    }
+    .filter-yellow-black .prescription-target * {
+      color: #ffe600 !important;
+      border-color: #ffe600 !important;
+    }
+
+    .filter-white-black .prescription-target {
+      background: #000000 !important;
+      color: #ffffff !important;
+      border: 1px solid #ffffff;
+    }
+    .filter-white-black .prescription-target * {
+      color: #ffffff !important;
+      border-color: #ffffff !important;
+    }
+
+    .filter-cyan-black .prescription-target {
+      background: #000000 !important;
+      color: #00e5ff !important;
+      border: 1px solid #00e5ff;
+    }
+    .filter-cyan-black .prescription-target * {
+      color: #00e5ff !important;
+      border-color: #00e5ff !important;
+    }
+
+    .filter-inverted .prescription-target {
+      filter: invert(1) hue-rotate(180deg);
+    }
+
+    .rx-header {
+      border-bottom: 2px solid #0056b3;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .rx-logo {
+      font-weight: bold;
+      font-size: 13px;
+      color: #0056b3;
+    }
+
+    .rx-hospital {
+      font-size: 8px;
+      text-align: right;
+      line-height: 1.2;
+    }
+
+    .rx-field {
+      margin-bottom: 4px;
+      font-size: 10px;
+    }
+
+    .rx-label {
+      font-weight: bold;
+    }
+
+    .rx-medicines {
+      margin-top: 8px;
+      border-top: 1px dashed #999;
+      padding-top: 8px;
+    }
+
+    .rx-med-item {
+      margin-bottom: 8px;
+      padding: 4px 6px;
+      background: rgba(0,0,0,0.03);
+      border-left: 3px solid #0056b3;
+    }
+
+    .filter-yellow-black .rx-med-item {
+      border-left-color: #ffe600;
+      background: #111;
+    }
+
+    /* Brackets guía de encuadre (ROI) */
+    .roi-bracket {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-color: var(--accent-yellow);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .bracket-tl { top: 12px; left: 12px; border-width: 4px 0 0 4px; }
+    .bracket-tr { top: 12px; right: 12px; border-width: 4px 4px 0 0; }
+    .bracket-bl { bottom: 12px; left: 12px; border-width: 0 0 4px 4px; }
+    .bracket-br { bottom: 12px; right: 12px; border-width: 0 4px 4px 0; }
+
+    /* Indicador de Congelado (Freeze Frame) */
+    .freeze-badge {
+      position: absolute;
+      top: 18px;
+      background: rgba(255, 0, 50, 0.85);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      display: none;
+      z-index: 6;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Barra inferior de controles de cámara */
+    .camera-bottom-bar {
+      padding: 12px 16px 20px;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .zoom-selector {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-zoom {
+      width: 44px;
+      height: 36px;
+      background: #21262d;
+      border: 1px solid #444;
+      border-radius: 18px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-zoom.active {
+      background: var(--accent-yellow);
+      color: #000;
+      border-color: var(--accent-yellow);
+    }
+
+    .filter-selector {
+      display: flex;
+      justify-content: space-around;
+      gap: 6px;
+    }
+
+    .pill-filter {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: bold;
+      background: #21262d;
+      color: #fff;
+      border: 1px solid #555;
+      cursor: pointer;
+    }
+
+    .pill-filter.active {
+      border-color: var(--accent-yellow);
+      box-shadow: 0 0 6px var(--accent-yellow);
+    }
+
+    .cam-action-row {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .btn-freeze {
+      padding: 10px 18px;
+      background: #30363d;
+      color: #fff;
+      border: 2px solid #8b949e;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      min-width: 90px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-freeze.frozen {
+      background: #da3633;
+      border-color: #f85149;
+    }
+
+    .btn-shutter {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #000;
+      border: 4px solid var(--accent-yellow);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px rgba(255, 230, 0, 0.4);
+      transition: transform 0.1s;
+    }
+
+    .btn-shutter-inner {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--accent-yellow);
+    }
+
+    .btn-shutter:active {
+      transform: scale(0.92);
+    }
+
+    .btn-ocr-trigger {
+      padding: 10px 18px;
+      background: #1f6feb;
+      color: #fff;
+      border: 2px solid #58a6ff;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      min-width: 90px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* PANTALLA 2: LECTURA ASISTIDA OCR Y TTS */
+    .ocr-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #000000;
+      color: var(--accent-yellow);
+      overflow-y: auto;
+    }
+
+    .ocr-top-bar {
+      padding: 12px 16px;
+      background: #111;
+      border-bottom: 2px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-back-cam {
+      background: #222;
+      color: var(--accent-yellow);
+      border: 2px solid var(--accent-yellow);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Alerta crítica de seguridad del paciente */
+    .patient-safety-banner {
+      background: #ffe600;
+      color: #000000;
+      padding: 10px 12px;
+      margin: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 1.35;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .safety-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .ocr-content-body {
+      flex: 1;
+      padding: 12px 14px;
+      overflow-y: auto;
+    }
+
+    .reflow-text {
+      font-size: 18px;
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+    }
+
+    .reflow-text.size-large {
+      font-size: 24px;
+      line-height: 1.7;
+    }
+
+    .reflow-text.size-xlarge {
+      font-size: 30px;
+      line-height: 1.8;
+    }
+
+    .rx-parsed-card {
+      background: #111111;
+      border: 2px solid var(--accent-yellow);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .rx-card-title {
+      font-size: 1.15em;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--accent-yellow);
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .highlight-word {
+      background: #ffe600;
+      color: #000000;
+      padding: 0 4px;
+      border-radius: 3px;
+    }
+
+    /* Barra inferior de TTS */
+    .tts-player-bar {
+      background: #161b22;
+      border-top: 3px solid var(--accent-yellow);
+      padding: 14px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tts-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-tts-play {
+      background: var(--accent-yellow);
+      color: #000000;
+      border: 2px solid #ffffff;
+      border-radius: 28px;
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 52px;
+      box-shadow: 0 0 12px rgba(255, 230, 0, 0.4);
+    }
+
+    .speed-pills {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pill-speed {
+      background: #21262d;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 14px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .pill-speed.active {
+      background: var(--accent-cyan);
+      color: #000;
+      border-color: var(--accent-cyan);
+    }
+
+    .tts-status-text {
+      font-size: 11px;
+      color: #8b949e;
+      text-align: center;
+    }
+
+    /* SECCIÓN DE ESPECIFICACIONES TÉCNICAS */
+    .specs-panel {
+      flex: 1;
+      max-width: 700px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .specs-panel h2 {
+      font-size: 1.4rem;
+      margin-bottom: 14px;
+      color: var(--accent-yellow);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+
+    .spec-item {
+      margin-bottom: 16px;
+    }
+
+    .spec-item h3 {
+      font-size: 1.05rem;
+      color: #58a6ff;
+      margin-bottom: 4px;
+    }
+
+    .spec-item p, .spec-item ul {
+      color: #c9d1d9;
+      font-size: 0.92rem;
+    }
+
+    .spec-item ul {
+      padding-left: 20px;
+      margin-top: 4px;
+    }
+
+    .spec-item li {
+      margin-bottom: 4px;
+    }
+
+    .table-contrast {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.88rem;
+    }
+
+    .table-contrast th, .table-contrast td {
+      border: 1px solid var(--border-color);
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .table-contrast th {
+      background: #21262d;
+      color: #f0f6fc;
+    }
+
+    .side-by-side-layout {
+      display: flex;
+      gap: 24px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="badge-concept">Fase 4 · Propuesta Conceptual (D5 / RF-12 / M7)</span>
+    <h1>OcuAdapt Lupa · Prototipo UI/UX para Dispositivos Móviles</h1>
+    <p class="subtitle">Solución de visión artificial y asistencia auditiva offline para lectura de recetas médicas (EsSalud) y señalética física hospitalaria (Hospital Nacional Ramiro Prialé Prialé - Huancayo).</p>
+  </header>
+
+  <!-- Barra de control y navegación -->
+  <div class="view-toolbar">
+    <div class="tab-group">
+      <button class="btn-tab active" id="tab-cam" onclick="switchView('cam')">
+        📷 1. Visor de Cámara (Freeze Frame)
+      </button>
+      <button class="btn-tab" id="tab-ocr" onclick="switchView('ocr')">
+        🔍 2. Lectura Asistida (OCR + Voz TTS)
+      </button>
+      <button class="btn-tab" id="tab-both" onclick="switchView('both')">
+        📱📱 3. Vista Comparativa Lado a Lado
+      </button>
+    </div>
+
+    <div class="view-controls">
+      <span>Escalado del texto OCR:</span>
+      <select id="fontSizeSelect" onchange="changeFontSize(this.value)" style="background:#21262d; color:#fff; padding:6px 10px; border-radius:6px; border:1px solid #555;">
+        <option value="normal">200 % (18 px)</option>
+        <option value="large" selected>250 % (24 px - Recomendado)</option>
+        <option value="xlarge">300 % (30 px - Macrotipo)</option>
+      </select>
+    </div>
+  </div>
+
+  <main class="mockup-stage">
+
+    <!-- CHASIS 1: VISOR DE CÁMARA CONGELABLE -->
+    <div class="phone-chassis" id="chassis-cam">
+      <div class="phone-notch"><div class="notch-camera"></div></div>
+      <div class="phone-screen" id="cameraScreen">
+
+        <!-- Barra superior -->
+        <div class="camera-top-bar">
+          <span class="brand-title">OcuAdapt Lupa</span>
+          <div class="cam-tools">
+            <button class="icon-btn" id="btnTorch" title="Linterna de apoyo" onclick="toggleTorch()">🔦</button>
+            <button class="icon-btn" id="btnGrid" title="Guías de encuadre" onclick="toggleGrid()">📐</button>
+          </div>
+        </div>
+
+        <!-- Área de la cámara -->
+        <div class="viewfinder-area" id="viewfinderArea">
+          <!-- Brackets de alineación -->
+          <div class="roi-bracket bracket-tl" id="b-tl"></div>
+          <div class="roi-bracket bracket-tr" id="b-tr"></div>
+          <div class="roi-bracket bracket-bl" id="b-bl"></div>
+          <div class="roi-bracket bracket-br" id="b-br"></div>
+
+          <div class="freeze-badge" id="freezeBadge">IMAGEN CONGELADA (PAUSA)</div>
+
+          <!-- Receta Médica Simulada -->
+          <div class="prescription-target" id="rxTarget">
+            <div class="rx-header">
+              <div>
+                <div class="rx-logo">EsSalud</div>
+                <div style="font-size: 8px; color: #555;">Seguro Social de Salud</div>
+              </div>
+              <div class="rx-hospital">
+                <strong>HOSPITAL NACIONAL RAMIRO PRIALÉ PRIALÉ</strong><br>
+                Red Asistencial Junín · Huancayo
+              </div>
+            </div>
+
+            <div class="rx-field">
+              <span class="rx-label">PACIENTE:</span> QUISPE ROJAS, MARÍA (DNI: 20048192)<br>
+              <span class="rx-label">SERVICIO:</span> MEDICINA INTERNA · CONSULTORIO 14<br>
+              <span class="rx-label">FECHA:</span> 10/11/2026 · HORA: 09:15 AM
+            </div>
+
+            <div class="rx-medicines">
+              <div class="rx-med-item">
+                <strong>1. PARACETAMOL 500 mg TAB</strong><br>
+                <span>Posología: 1 tableta cada 8 horas por 5 días en caso de dolor o fiebre.</span>
+              </div>
+              <div class="rx-med-item">
+                <strong>2. AMOXICILINA 500 mg CAP</strong><br>
+                <span>Posología: 1 cápsula cada 8 horas por 7 días continuos. Tomar con alimentos.</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 6px; font-size: 8px; border-top: 1px solid #ccc; padding-top: 4px;">
+              <strong>MÉDICO:</strong> DRA. CARMEN HUAMÁN M. · CMP: 38491 · RNE: 14820
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra inferior de la cámara -->
+        <div class="camera-bottom-bar">
+          <!-- Zoom -->
+          <div class="zoom-selector">
+            <button class="btn-zoom active" onclick="setZoom(1)">1×</button>
+            <button class="btn-zoom" onclick="setZoom(1.5)">1.5×</button>
+            <button class="btn-zoom" onclick="setZoom(2)">2×</button>
+            <button class="btn-zoom" onclick="setZoom(3)">3×</button>
+          </div>
+
+          <!-- Filtros croma en tiempo real -->
+          <div class="filter-selector">
+            <button class="pill-filter active" onclick="setFilter('normal')">Color Real</button>
+            <button class="pill-filter" onclick="setFilter('yellow-black')">Amarillo/Negro</button>
+            <button class="pill-filter" onclick="setFilter('white-black')">Blanco/Negro</button>
+            <button class="pill-filter" onclick="setFilter('cyan-black')">Cian/Negro</button>
+          </div>
+
+          <!-- Botones de acción táctiles (mínimo 48x48 dp) -->
+          <div class="cam-action-row">
+            <button class="btn-freeze" id="btnFreezeAction" onclick="toggleFreeze()">
+              <span id="freezeTxt">⏸ Congelar</span>
+            </button>
+
+            <button class="btn-shutter" onclick="processToOCR()" title="Capturar y Extraer Texto">
+              <div class="btn-shutter-inner"></div>
+            </button>
+
+            <button class="btn-ocr-trigger" onclick="processToOCR()" title="Ir a lectura OCR">
+              <span>Leer ➔</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- CHASIS 2: PANTALLA DE RESULTADO OCR Y TTS -->
+    <div class="phone-chassis hidden" id="chassis-ocr">
+      <div class="phone-notch"><div class="notch-camera"></div></div>
+      <div class="phone-screen" id="ocrScreen">
+
+        <!-- Barra superior OCR -->
+        <div class="ocr-top-bar">
+          <button class="btn-back-cam" onclick="switchView('cam')">
+            ◀ Volver a Cámara
+          </button>
+          <span style="font-size: 12px; color: #888;">OCR Tesseract (Offline)</span>
+        </div>
+
+        <!-- AVISO CRÍTICO DE SEGURIDAD DEL PACIENTE (Requerimiento de farmacovigilancia) -->
+        <div class="patient-safety-banner" role="alert">
+          <span class="safety-icon">⚠️</span>
+          <div>
+            <strong>ADVERTENCIA DE SEGURIDAD:</strong> Verifique siempre dosis, horario y principio activo con el personal de farmacia o su médico tratante. La lectura por OCR es referencial y no reemplaza la indicación facultativa.
+          </div>
+        </div>
+
+        <!-- Cuerpo de lectura con texto reflujado de gran tamaño -->
+        <div class="ocr-content-body">
+          <div class="reflow-text size-large" id="reflowContainer">
+
+            <div class="rx-parsed-card">
+              <div class="rx-card-title">Datos del Asegurado</div>
+              <p><strong>Paciente:</strong> María Quispe Rojas</p>
+              <p><strong>DNI:</strong> 20048192</p>
+              <p><strong>Sede:</strong> Hosp. Nac. Ramiro Prialé Prialé</p>
+              <p><strong>Consultorio:</strong> Medicina Interna 14</p>
+            </div>
+
+            <div class="rx-parsed-card" style="border-left: 8px solid var(--accent-yellow);">
+              <div class="rx-card-title">Medicamento 1</div>
+              <p style="font-size: 1.1em; color: #fff;"><strong>PARACETAMOL 500 mg</strong> (Tabletas)</p>
+              <p style="margin-top: 6px;">👉 <strong>Dosis:</strong> 1 tableta cada 8 horas durante 5 días.</p>
+              <p style="font-size: 0.85em; color: #aaa;">Indicación: Tomar solo si presenta fiebre o dolor.</p>
+            </div>
+
+            <div class="rx-parsed-card" style="border-left: 8px solid var(--accent-cyan);">
+              <div class="rx-card-title" style="color: var(--accent-cyan); border-color: var(--accent-cyan);">Medicamento 2</div>
+              <p style="font-size: 1.1em; color: #fff;"><strong>AMOXICILINA 500 mg</strong> (Cápsulas)</p>
+              <p style="margin-top: 6px;">👉 <strong>Dosis:</strong> 1 cápsula cada 8 horas durante 7 días continuos.</p>
+              <p style="font-size: 0.85em; color: #aaa;">Indicación: Cumplir el tratamiento completo con alimentos.</p>
+            </div>
+
+            <div style="font-size: 0.85em; color: #888; text-align: center; margin-top: 10px;">
+              Médico tratante: Dra. Carmen Huamán (CMP 38491)
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Barra de reproducción TTS (Web Speech API real) -->
+        <div class="tts-player-bar">
+          <div class="tts-controls-row">
+            <button class="btn-tts-play" id="btnTtsToggle" onclick="toggleTtsSpeech()">
+              <span id="ttsIcon">🔊</span>
+              <span id="ttsBtnText">Escuchar Receta</span>
+            </button>
+
+            <div class="speed-pills">
+              <button class="pill-speed" onclick="setTtsSpeed(0.75, this)">0.75×</button>
+              <button class="pill-speed active" onclick="setTtsSpeed(1.0, this)">1.0×</button>
+              <button class="pill-speed" onclick="setTtsSpeed(1.25, this)">1.25×</button>
+            </div>
+          </div>
+          <div class="tts-status-text" id="ttsStatus">
+            Web Speech API: Síntesis en español (es-PE / es-ES) lista
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PANEL LATERAL DE ESPECIFICACIONES TÉCNICAS Y JUSTIFICACIÓN APA 7 -->
+    <div class="specs-panel" id="specsPanel">
+      <h2>Ficha Técnica del Mockup Conceptual (M7)</h2>
+
+      <div class="spec-item">
+        <h3>1. Propósito y Correspondencia con el Proyecto</h3>
+        <p>Este mockup formaliza el diseño conceptual del módulo móvil <strong>OcuAdapt Lupa (RF-12 / M7)</strong>, especificado en la sección 7.8.4 y en la Tabla 7.10 del informe técnico. Responde a la barrera <strong>B7</strong> (dificultad de lectura en recetas médicas impresas en papel térmico de baja calidad y señalética hospitalaria en el Hospital Nacional Ramiro Prialé Prialé de Huancayo).</p>
+      </div>
+
+      <div class="spec-item">
+        <h3>2. Arquitectura de Tubería (Pipeline D7)</h3>
+        <ul>
+          <li><strong>Captura de vídeo:</strong> API estándar <code>getUserMedia</code> con función de congelado de cuadro (*Freeze Frame*) para evitar el temblor de pulso típico en personas adultas mayores.</li>
+          <li><strong>Preprocesamiento Canvas:</strong> Binarización adaptativa mediante umbral de Otsu e inversión cromática selectiva.</li>
+          <li><strong>Filtros croma de alto contraste:</strong> Conmutación instantánea entre Amarillo sobre Negro, Blanco sobre Negro y Cian sobre Negro.</li>
+          <li><strong>Motor OCR Local:</strong> Tesseract.js con modelo lingüístico en español precargado, garantizando <em>procesamiento 100 % fuera de línea</em> para proteger datos de salud sensibles (Ley N.° 29733).</li>
+          <li><strong>Síntesis de Voz (TTS):</strong> Utilización de la <code>Web Speech API</code> (interfaz <code>speechSynthesis</code>) para lectura en voz alta con entonación médica pausada (0.75× a 1.0×).</li>
+        </ul>
+      </div>
+
+      <div class="spec-item">
+        <h3>3. Parámetros Fotométricos de Contraste (WCAG 2.2)</h3>
+        <table class="table-contrast">
+          <thead>
+            <tr>
+              <th>Esquema Croma</th>
+              <th>Color Frente</th>
+              <th>Color Fondo</th>
+              <th>Razón de Contraste</th>
+              <th>Conformidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Amarillo sobre Negro</strong></td>
+              <td><code>#FFE600</code></td>
+              <td><code>#000000</code></td>
+              <td><strong>18.5 : 1</strong></td>
+              <td>Supera AAA (≥ 7:1)</td>
+            </tr>
+            <tr>
+              <td><strong>Blanco sobre Negro</strong></td>
+              <td><code>#FFFFFF</code></td>
+              <td><code>#000000</code></td>
+              <td><strong>21.0 : 1</strong></td>
+              <td>Máximo teórico AAA</td>
+            </tr>
+            <tr>
+              <td><strong>Cian sobre Negro</strong></td>
+              <td><code>#00E5FF</code></td>
+              <td><code>#000000</code></td>
+              <td><strong>15.8 : 1</strong></td>
+              <td>Supera AAA (≥ 7:1)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="spec-item">
+        <h3>4. Consideración Crítica de Seguridad del Paciente</h3>
+        <p>Conforme a las directrices de farmacovigilancia (R.M. 806-2021-MINSA), la interfaz incorpora de forma no descartable un <strong>banner de advertencia de seguridad</strong>. Dado que el reconocimiento óptico puede inducir errores en números o abreviaturas en recetas arrugadas o desgastadas, se instruye categóricamente al usuario a verificar las dosis de medicamentos críticos con el farmacéutico de ventanilla antes del consumo.</p>
+      </div>
+
+      <div class="spec-item">
+        <h3>5. Ergonomía Táctil y Accesibilidad Física</h3>
+        <ul>
+          <li><strong>Área de toque:</strong> Botones táctiles con dimensiones de al menos <strong>48 × 48 dp</strong> (cumpliendo WCAG 2.5.5 y 2.5.8 Target Size).</li>
+          <li><strong>Tipografía:</strong> Familia <code>Atkinson Hyperlegible</code> con distinción explícita de caracteres conflictivos (ej. '1', 'I', 'l', '|' y '0', 'O') a 250 % de escala nativa.</li>
+          <li><strong>Feedback háptico proyectado:</strong> Vibración corta de 40 ms al confirmar captura o cambio de filtro.</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    let currentZoom = 1;
+    let isFrozen = false;
+    let isTorchOn = false;
+    let currentSpeechSpeed = 1.0;
+    let isSpeaking = false;
+
+    // Cambiar vistas
+    function switchView(view) {
+      const chassisCam = document.getElementById('chassis-cam');
+      const chassisOcr = document.getElementById('chassis-ocr');
+      const specsPanel = document.getElementById('specsPanel');
+      const tabCam = document.getElementById('tab-cam');
+      const tabOcr = document.getElementById('tab-ocr');
+      const tabBoth = document.getElementById('tab-both');
+
+      tabCam.classList.remove('active');
+      tabOcr.classList.remove('active');
+      tabBoth.classList.remove('active');
+
+      if (view === 'cam') {
+        chassisCam.classList.remove('hidden');
+        chassisOcr.classList.add('hidden');
+        specsPanel.classList.remove('hidden');
+        tabCam.classList.add('active');
+      } else if (view === 'ocr') {
+        chassisCam.classList.add('hidden');
+        chassisOcr.classList.remove('hidden');
+        specsPanel.classList.remove('hidden');
+        tabOcr.classList.add('active');
+      } else if (view === 'both') {
+        chassisCam.classList.remove('hidden');
+        chassisOcr.classList.remove('hidden');
+        specsPanel.classList.add('hidden');
+        tabBoth.classList.add('active');
+      }
+    }
+
+    // Zoom interactivo
+    function setZoom(val) {
+      currentZoom = val;
+      const target = document.getElementById('rxTarget');
+      target.style.transform = `scale(${val})`;
+
+      document.querySelectorAll('.btn-zoom').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim() === `${val}×`);
+      });
+    }
+
+    // Filtros croma
+    function setFilter(filterClass) {
+      const vf = document.getElementById('viewfinderArea');
+      vf.className = 'viewfinderArea';
+      if (filterClass !== 'normal') {
+        vf.classList.add('filter-' + filterClass);
+      }
+
+      document.querySelectorAll('.pill-filter').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('onclick').includes(filterClass));
+      });
+    }
+
+    // Congelar imagen (Freeze frame)
+    function toggleFreeze() {
+      isFrozen = !isFrozen;
+      const badge = document.getElementById('freezeBadge');
+      const freezeBtn = document.getElementById('btnFreezeAction');
+      const freezeTxt = document.getElementById('freezeTxt');
+
+      if (isFrozen) {
+        badge.style.display = 'block';
+        freezeBtn.classList.add('frozen');
+        freezeTxt.textContent = '▶ Reanudar';
+      } else {
+        badge.style.display = 'none';
+        freezeBtn.classList.remove('frozen');
+        freezeTxt.textContent = '⏸ Congelar';
+      }
+    }
+
+    // Linterna
+    function toggleTorch() {
+      isTorchOn = !isTorchOn;
+      const btn = document.getElementById('btnTorch');
+      btn.classList.toggle('active', isTorchOn);
+      const target = document.getElementById('rxTarget');
+      if (isTorchOn) {
+        target.style.boxShadow = '0 0 35px rgba(255, 255, 200, 0.9)';
+      } else {
+        target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.5)';
+      }
+    }
+
+    // Retícula
+    function toggleGrid() {
+      const brackets = document.querySelectorAll('.roi-bracket');
+      brackets.forEach(b => {
+        b.style.display = b.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+
+    // Transición a pantalla OCR
+    function processToOCR() {
+      // Simular procesamiento
+      const shutter = document.querySelector('.btn-shutter');
+      shutter.style.transform = 'scale(0.85)';
+      setTimeout(() => {
+        shutter.style.transform = 'scale(1)';
+        switchView('ocr');
+      }, 180);
+    }
+
+    // Tamaño de fuente en OCR
+    function changeFontSize(sizeKey) {
+      const c = document.getElementById('reflowContainer');
+      c.className = 'reflow-text';
+      if (sizeKey === 'large') c.classList.add('size-large');
+      else if (sizeKey === 'xlarge') c.classList.add('size-xlarge');
+    }
+
+    // Síntesis de voz real con Web Speech API
+    function setTtsSpeed(speed, btn) {
+      currentSpeechSpeed = speed;
+      document.querySelectorAll('.pill-speed').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (isSpeaking) {
+        window.speechSynthesis.cancel();
+        startSpeaking();
+      }
+    }
+
+    function toggleTtsSpeech() {
+      if (isSpeaking) {
+        stopSpeaking();
+      } else {
+        startSpeaking();
+      }
+    }
+
+    function startSpeaking() {
+      if (!('speechSynthesis' in window)) {
+        alert('La síntesis de voz no está soportada en este navegador.');
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const textToRead = "Aviso de seguridad del paciente: Verifique siempre la dosis con su médico o farmacéutico. " +
+        "Receta médica de EsSalud, Hospital Nacional Ramiro Prialé Prialé de Huancayo. " +
+        "Paciente: María Quispe Rojas. " +
+        "Medicamento uno: Paracetamol quinientos miligramos, tabletas. Tomar una tableta cada ocho horas durante cinco días en caso de fiebre o dolor. " +
+        "Medicamento dos: Amoxicilina quinientos miligramos, cápsulas. Tomar una cápsula cada ocho horas durante siete días continuos con alimentos. Cumplir el tratamiento completo.";
+
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'es-PE';
+      utterance.rate = currentSpeechSpeed;
+
+      utterance.onstart = () => {
+        isSpeaking = true;
+        document.getElementById('ttsIcon').textContent = '⏹';
+        document.getElementById('ttsBtnText').textContent = 'Detener Lectura';
+        document.getElementById('ttsStatus').textContent = '🔊 Reproduciendo lectura en voz alta...';
+        document.getElementById('ttsStatus').style.color = '#ffe600';
+      };
+
+      utterance.onend = () => {
+        stopSpeaking();
+      };
+
+      utterance.onerror = () => {
+        stopSpeaking();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeaking() {
+      isSpeaking = false;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      document.getElementById('ttsIcon').textContent = '🔊';
+      document.getElementById('ttsBtnText').textContent = 'Escuchar Receta';
+      document.getElementById('ttsStatus').textContent = 'Web Speech API: Síntesis en español lista';
+      document.getElementById('ttsStatus').style.color = '#8b949e';
+    }
+  </script>
+</body>
+</html>

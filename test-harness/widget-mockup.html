@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OcuAdapt – Mockup del Widget Institucional (M8 / RF-11)</title>
+  <style>
+    @font-face {
+      font-family: 'Atkinson Hyperlegible';
+      src: url('./atkinson-hyperlegible-latin-400-normal.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Atkinson Hyperlegible';
+      src: url('./atkinson-hyperlegible-latin-700-normal.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Inter';
+      src: url('./inter-latin-400-normal.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Inter';
+      src: url('./inter-latin-700-normal.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    :root {
+      --essalud-blue: #0056b3;
+      --essalud-dark: #003875;
+      --essalud-light: #e8f1fa;
+      --text-color: #212529;
+      --text-muted: #6c757d;
+      --border-color: #dee2e6;
+      --bg-page: #f8f9fa;
+      --accent-yellow: #ffd400;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-color);
+      line-height: 1.5;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* BARRA SUPERIOR DE CONTROL DEL MOCKUP (Para el evaluador / capturas) */
+    .mockup-toolbar {
+      background: #111827;
+      color: #f9fafb;
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      border-bottom: 2px solid #374151;
+      position: sticky;
+      top: 0;
+      z-index: 999999;
+    }
+
+    .mockup-title-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-m8 {
+      background: #2563eb;
+      color: #fff;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-mockup-mode {
+      background: #1f2937;
+      color: #e5e7eb;
+      border: 1px solid #4b5563;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-mockup-mode:hover {
+      background: #374151;
+      border-color: #9ca3af;
+    }
+
+    .btn-mockup-mode.active {
+      background: #ffd400;
+      color: #111;
+      border-color: #ffd400;
+      font-weight: bold;
+    }
+
+    .btn-clean-capture {
+      background: #059669;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-clean-capture:hover {
+      background: #10b981;
+    }
+
+    /* BARRA INSTITUCIONAL GOBIERNO */
+    .gob-bar {
+      background: #333333;
+      color: #ffffff;
+      padding: 6px 24px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .gob-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .gob-flag {
+      width: 16px;
+      height: 11px;
+      background: linear-gradient(to right, #d91023 33%, #ffffff 33%, #ffffff 66%, #d91023 66%);
+      border: 1px solid #777;
+    }
+
+    /* CABECERA ESSALUD */
+    .hospital-header {
+      background: #ffffff;
+      border-bottom: 3px solid var(--essalud-blue);
+      padding: 16px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .essalud-symbol {
+      width: 48px;
+      height: 48px;
+      background: var(--essalud-blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 24px;
+    }
+
+    .hospital-titles h1 {
+      font-size: 20px;
+      color: var(--essalud-dark);
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .hospital-titles p {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-badge-net {
+      background: var(--essalud-light);
+      color: var(--essalud-blue);
+      border: 1px solid #bad8f5;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    /* MENÚ DE NAVEGACIÓN */
+    .hospital-nav {
+      background: var(--essalud-dark);
+      padding: 0 24px;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    .nav-item {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: var(--essalud-blue);
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .portal-main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .portal-main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* TARJETAS DEL PORTAL */
+    .portal-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .portal-card h2 {
+      font-size: 18px;
+      color: var(--essalud-dark);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--essalud-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* TABLA DE TURNOS Y DISPONIBILIDAD */
+    .citas-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13.5px;
+    }
+
+    .citas-table th, .citas-table td {
+      border: 1px solid var(--border-color);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .citas-table th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    /* ESTADOS Y PUNTOS SEMAFÓRICOS */
+    .status-dot {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    .status-dot.ok { background: #28a745; }
+    .status-dot.wait { background: #ffc107; }
+    .status-dot.bad { background: #dc3545; }
+
+    /* ESTADOS CON CODIFICACIÓN REDUNDANTE ACTIVA (OcuAdapt) */
+    body.ocu-redundant .status-dot.ok {
+      border-radius: 50% !important;
+      background-image: radial-gradient(#fff 28%, transparent 32%) !important;
+      background-size: 5px 5px !important;
+      box-shadow: 0 0 0 1.5px #000;
+    }
+
+    body.ocu-redundant .status-dot.wait {
+      border-radius: 3px !important;
+      background-image: linear-gradient(0deg, #fff 25%, transparent 25%, transparent 50%, #fff 50%, #fff 75%, transparent 75%) !important;
+      background-size: 4px 4px !important;
+      box-shadow: 0 0 0 1.5px #000;
+    }
+
+    body.ocu-redundant .status-dot.bad {
+      border-radius: 2px !important;
+      background-image: repeating-linear-gradient(45deg, #fff, #fff 2px, transparent 2px, transparent 5px) !important;
+      box-shadow: 0 0 0 1.5px #000;
+    }
+
+    .redundant-text-badge {
+      display: none;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+
+    body.ocu-redundant .redundant-text-badge {
+      display: inline-block;
+    }
+
+    .badge-ok { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .badge-wait { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+    .badge-bad { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+    /* CONTENEDOR FIJO DE FORMULARIO (BARRERA B3) */
+    .portal-form-fixed {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .portal-form-fixed input {
+      width: 100%;
+      padding: 8px 10px;
+      margin: 6px 0 12px;
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .btn-portal-primary {
+      background: var(--essalud-blue);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      font-weight: 700;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* MODO ALTO CONTRASTE INVERTIDO DE OCUADAPT */
+    body.ocu-inverted {
+      background: #000000 !important;
+      color: #ffffff !important;
+    }
+    body.ocu-inverted .hospital-header,
+    body.ocu-inverted .portal-card,
+    body.ocu-inverted .gob-bar,
+    body.ocu-inverted .portal-form-fixed,
+    body.ocu-inverted .citas-table th,
+    body.ocu-inverted .citas-table td {
+      background: #111111 !important;
+      color: #ffffff !important;
+      border-color: #ffd400 !important;
+    }
+    body.ocu-inverted h1, 
+    body.ocu-inverted h2, 
+    body.ocu-inverted strong {
+      color: #ffd400 !important;
+    }
+    body.ocu-inverted a {
+      color: #00e5ff !important;
+    }
+
+    /* MODO FOCO REFORZADO */
+    body.ocu-focus :focus-visible {
+      outline: 3px solid #ffd400 !important;
+      outline-offset: 3px !important;
+      box-shadow: 0 0 0 2px #000000 !important;
+    }
+
+    /* MODO TIPOGRAFÍA ATKINSON */
+    body.ocu-atkinson, body.ocu-atkinson * {
+      font-family: 'Atkinson Hyperlegible', sans-serif !important;
+    }
+
+    /* MODO ESCALADO 150% / 200% */
+    body.ocu-scale-150 {
+      font-size: 19px !important;
+    }
+    body.ocu-scale-200 {
+      font-size: 24px !important;
+    }
+
+    /* GUÍA DE LECTURA VISUAL (MÁSCARA) */
+    .reading-mask-overlay {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      height: 48px;
+      top: 350px;
+      background: rgba(255, 212, 0, 0.22);
+      border-top: 2px solid #ffd400;
+      border-bottom: 2px solid #ffd400;
+      pointer-events: none;
+      z-index: 999990;
+    }
+
+    body.ocu-mask .reading-mask-overlay {
+      display: block;
+    }
+
+    /* ==========================================================================
+       EL WIDGET INSTITUCIONAL: <ocuadapt-widget> (MOCKUP VISUAL INTEGRADO)
+       ========================================================================== */
+
+    .widget-container {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 9999999;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    /* Botón flotante accesible (FAB) */
+    .widget-fab {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #0b4f9c;
+      color: #ffffff;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 2px #000000, 0 6px 16px rgba(0,0,0,0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .widget-fab:hover {
+      transform: scale(1.06);
+      background: #003875;
+    }
+
+    .widget-fab:focus-visible {
+      outline: 4px solid #ffd400;
+      outline-offset: 3px;
+    }
+
+    .widget-fab svg {
+      width: 30px;
+      height: 30px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+    }
+
+    /* Panel desplegable del widget */
+    .widget-panel {
+      position: absolute;
+      right: 0;
+      bottom: 66px;
+      width: 350px;
+      max-height: 82vh;
+      overflow-y: auto;
+      background: #ffffff;
+      color: #111827;
+      border: 3px solid #111827;
+      border-radius: 12px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 13.5px;
+      animation: slideUp 0.2s ease-out;
+    }
+
+    .widget-panel.hidden {
+      display: none !important;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .widget-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+
+    .widget-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .widget-logo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #0b4f9c;
+      border: 2px solid #ffd400;
+    }
+
+    .widget-brand-text {
+      font-weight: 800;
+      font-size: 15px;
+      color: #0b4f9c;
+    }
+
+    .widget-tag-wcag {
+      font-size: 9px;
+      font-weight: 800;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    .btn-widget-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      color: #6b7280;
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .btn-widget-close:hover {
+      background: #f3f4f6;
+      color: #111;
+    }
+
+    /* Campos y controles del widget */
+    .widget-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .widget-field label {
+      font-weight: 700;
+      font-size: 12px;
+      color: #374151;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .widget-field select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 2px solid #9ca3af;
+      border-radius: 6px;
+      background: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+      cursor: pointer;
+    }
+
+    .widget-field select:focus {
+      outline: 2px solid #0b4f9c;
+    }
+
+    .widget-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .widget-slider-row input[type="range"] {
+      flex: 1;
+      height: 6px;
+      accent-color: #0b4f9c;
+      cursor: pointer;
+    }
+
+    .widget-check-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .widget-check-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #0b4f9c;
+      cursor: pointer;
+    }
+
+    .widget-check-row label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #1f2937;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .widget-btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-w-action {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-w-reset {
+      background: #ffffff;
+      color: #0b4f9c;
+      border: 2px solid #0b4f9c;
+    }
+    .btn-w-reset:hover {
+      background: #eff6ff;
+    }
+
+    .btn-w-apply {
+      background: #0b4f9c;
+      color: #ffffff;
+      border: 2px solid #0b4f9c;
+    }
+    .btn-w-apply:hover {
+      background: #003875;
+    }
+
+    .widget-disclaimer {
+      font-size: 10px;
+      color: #6b7280;
+      line-height: 1.3;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 6px;
+      text-align: center;
+    }
+
+    /* Rótulos de llamada para la captura académica */
+    .callout-badge {
+      position: absolute;
+      background: #ffd400;
+      color: #000;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .callout-1 { top: -10px; left: -10px; }
+  </style>
+</head>
+<body id="portalBody">
+
+  <!-- BARRA DE CONTROL DEL MOCKUP (FACILITA LA CAPTURA PARA EL USUARIO) -->
+  <div class="mockup-toolbar" id="toolbarMockup">
+    <div class="mockup-title-tag">
+      <span class="badge-m8">Mockup M8 / RF-11</span>
+      <strong>OcuAdapt · Widget Institucional en Portal Hospitalario EsSalud</strong>
+    </div>
+
+    <div class="toolbar-actions">
+      <button class="btn-mockup-mode active" id="btnModeOpen" onclick="setMockupState('open')">
+        📂 1. Panel Abierto (Mockup Principal)
+      </button>
+      <button class="btn-mockup-mode" id="btnModeClosed" onclick="setMockupState('closed')">
+        🔘 2. Solo Botón Flotante
+      </button>
+      <button class="btn-mockup-mode" id="btnModeLowVision" onclick="setMockupState('adapted')">
+        ⚡ 3. Con Adaptación Activa
+      </button>
+      <button class="btn-clean-capture" onclick="toggleCleanCapture()" id="btnCleanToggle" title="Ocultar esta barra para tomar captura de pantalla limpia">
+        📷 Ocultar Barra para Captura
+      </button>
+    </div>
+  </div>
+
+  <!-- GUÍA DE LECTURA VISUAL (OVERLAY MÁSCARA) -->
+  <div class="reading-mask-overlay" id="readingMask"></div>
+
+  <!-- BARRA GOB.PE INSTITUCIONAL -->
+  <div class="gob-bar">
+    <div class="gob-brand">
+      <div class="gob-flag"></div>
+      <span>Plataforma digital única del Estado Peruano · Gob.pe</span>
+    </div>
+    <div>Sede Central Junín · Huancayo</div>
+  </div>
+
+  <!-- CABECERA DEL HOSPITAL NACIONAL RAMIRO PRIALÉ PRIALÉ -->
+  <header class="hospital-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <div class="essalud-symbol">EsS</div>
+        <div class="hospital-titles">
+          <h1>Hospital Nacional Ramiro Prialé Prialé</h1>
+          <p>EsSalud · Red Asistencial Junín · Atención al Asegurado</p>
+        </div>
+      </div>
+      <div class="header-badge-net">
+        Atención Especializada Nivel IV<br>
+        <span style="font-size: 10.5px; color:#555;">Av. Independencia 296, Huancayo</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGACIÓN PRINCIPAL -->
+  <nav class="hospital-nav">
+    <div class="nav-container">
+      <a href="#" class="nav-item active">🏠 Inicio</a>
+      <a href="#" class="nav-item">📅 Citas en Línea</a>
+      <a href="#" class="nav-item">📋 Estado de Solicitudes</a>
+      <a href="#" class="nav-item">💊 Farmacia y Recetas</a>
+      <a href="#" class="nav-item">🩺 Directorio Médico</a>
+      <a href="#" class="nav-item">ℹ️ Derechos del Asegurado</a>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL DEL PORTAL -->
+  <main class="portal-main">
+
+    <!-- COLUMNA IZQUIERDA: TRÁMITES Y CITAS -->
+    <section>
+      <!-- TARJETA 1: CITAS Y ESTADOS DE TURNO (MUESTRA CODIFICACIÓN REDUNDANTE) -->
+      <article class="portal-card">
+        <h2>
+          <span>📋</span> Disponibilidad de Citas y Turnos de Consulta Externa
+        </h2>
+        <p style="font-size: 13.5px; color: #475569; margin-bottom: 8px;">
+          Consulte en tiempo real la situación de turnos médicos en el Hospital Nacional Ramiro Prialé Prialé:
+        </p>
+
+        <table class="citas-table">
+          <thead>
+            <tr>
+              <th>Especialidad</th>
+              <th>Médico Asignado</th>
+              <th>Horario</th>
+              <th>Estado de Turno</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Oftalmología</strong></td>
+              <td>Dr. Jorge Meneses</td>
+              <td>08:30 - 12:30</td>
+              <td>
+                <span class="status-dot ok"></span>
+                <span>Disponible</span>
+                <span class="redundant-text-badge badge-ok">✔ Aprobado</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Medicina Interna</strong></td>
+              <td>Dra. Carmen Huamán</td>
+              <td>09:00 - 13:00</td>
+              <td>
+                <span class="status-dot wait"></span>
+                <span>Últimos cupos</span>
+                <span class="redundant-text-badge badge-wait">▲ Pendiente</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Cardiología</strong></td>
+              <td>Dr. Roberto Castro</td>
+              <td>14:00 - 18:00</td>
+              <td>
+                <span class="status-dot bad"></span>
+                <span>Agotado</span>
+                <span class="redundant-text-badge badge-bad">✖ Rechazado</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <!-- TARJETA 2: INFORMACIÓN CON CONTRASTE Y FORMULARIO DE ACCESO -->
+      <article class="portal-card">
+        <h2>
+          <span>🔐</span> Acceso al Módulo «¿Dónde me atiendo?»
+        </h2>
+        <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">
+          Ingrese su número de documento de identidad para verificar acreditación y centro de adscripción:
+        </p>
+
+        <div class="portal-form-fixed">
+          <label for="docNum" style="font-weight: 700; font-size: 12.5px;">Documento Nacional de Identidad (DNI):</label>
+          <input type="text" id="docNum" value="20048192" placeholder="8 dígitos sin guiones" maxlength="8">
+          <button class="btn-portal-primary" type="button">Consultar Estado de Acreditación</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- COLUMNA DERECHA: AVISOS Y FARMACIA -->
+    <aside>
+      <article class="portal-card">
+        <h2>
+          <span>📢</span> Horario de Farmacia
+        </h2>
+        <p style="font-size: 13px; color: #334155;">
+          <strong>Ventanillas 1 a 6:</strong><br>
+          Lunes a Viernes de 07:00 a 19:00.<br>
+          Sábados de 08:00 a 13:00.
+        </p>
+        <div style="margin-top: 10px; padding: 10px; background: #e0f2fe; border-left: 4px solid #0284c7; font-size: 12px; color: #0369a1;">
+          <strong>Aviso a pacientes de baja visión:</strong> Recuerde solicitar sus indicaciones impresas en letra ampliada en ventanilla de orientación preferencial.
+        </div>
+      </article>
+
+      <article class="portal-card">
+        <h2>
+          <span>📞</span> Central Telefónica
+        </h2>
+        <p style="font-size: 13px; color: #334155;">
+          EsSalud en Línea Junín:<br>
+          <strong style="font-size: 16px; color: var(--essalud-blue);">(064) 48-1120</strong>
+        </p>
+      </article>
+    </aside>
+
+  </main>
+
+
+  <!-- ========================================================================
+       MOCKUP DEL WIDGET INSTITUCIONAL OCUADAPT (<ocuadapt-widget>)
+       ======================================================================== -->
+  <div class="widget-container" id="ocuadaptWidgetMockup">
+
+    <!-- PANEL DESPLEGABLE DEL WIDGET -->
+    <div class="widget-panel" id="widgetPanel" role="dialog" aria-label="Herramientas de Accesibilidad OcuAdapt">
+      
+      <!-- Encabezado del panel -->
+      <div class="widget-panel-header">
+        <div class="widget-brand-group">
+          <div class="widget-logo-dot"></div>
+          <div>
+            <span class="widget-brand-text">OcuAdapt</span>
+            <span class="widget-tag-wcag">WCAG 2.2 AA</span>
+          </div>
+        </div>
+        <button class="btn-widget-close" onclick="toggleWidgetPanel()" title="Cerrar panel (Esc)">✕</button>
+      </div>
+
+      <!-- Control 1: Perfil Rápido Preset -->
+      <div class="widget-field">
+        <label for="wPreset">
+          <span>Perfil Rápido Predefinido:</span>
+        </label>
+        <select id="wPreset" onchange="onPresetChange(this.value)">
+          <option value="none">— Personalizado —</option>
+          <option value="lowVision">Baja Visión (Contraste + Escala 150%)</option>
+          <option value="protanopia">Daltonismo: Protanopia (Rojo débil)</option>
+          <option value="deuteranopia">Daltonismo: Deuteranopia (Verde débil)</option>
+          <option value="tritanopia">Daltonismo: Tritanopia (Azul débil)</option>
+          <option value="inverted">Modo Invertido (Fondo Negro / Texto Amarillo)</option>
+        </select>
+      </div>
+
+      <!-- Control 2: Visión del Color -->
+      <div class="widget-field">
+        <label for="wColorVision">Filtro Daltonismo (ChromaVision):</label>
+        <select id="wColorVision" onchange="onColorVisionChange(this.value)">
+          <option value="normal">Normal (Sin filtro)</option>
+          <option value="protanopia">Protanopia / Protanomalía</option>
+          <option value="deuteranopia" selected>Deuteranopia / Deuteranomalía</option>
+          <option value="tritanopia">Tritanopia / Tritanomalía</option>
+        </select>
+      </div>
+
+      <!-- Control 3: Modo de Contraste -->
+      <div class="widget-field">
+        <label for="wContrast">Ajuste de Contraste Adaptativo:</label>
+        <select id="wContrast" onchange="onContrastChange(this.value)">
+          <option value="off">Original del sitio</option>
+          <option value="aa" selected>Reforzado WCAG AA (≥ 4.5:1)</option>
+          <option value="inverted">Alto Contraste Invertido (Negro / Amarillo)</option>
+        </select>
+      </div>
+
+      <!-- Control 4: Tamaño de Fuente / Escala -->
+      <div class="widget-field">
+        <label for="wScale">
+          <span>Escala de texto:</span>
+          <span id="scaleVal" style="color:#0b4f9c; font-weight:800;">125 %</span>
+        </label>
+        <div class="widget-slider-row">
+          <span style="font-size:11px;">100%</span>
+          <input type="range" id="wScale" min="100" max="200" step="10" value="125" oninput="onScaleChange(this.value)">
+          <span style="font-size:11px;">200%</span>
+        </div>
+      </div>
+
+      <!-- Control 5: Tipografía Accesible -->
+      <div class="widget-field">
+        <label for="wFont">Tipografía Accesible:</label>
+        <select id="wFont" onchange="onFontChange(this.value)">
+          <option value="inter">Inter (Legibilidad estándar)</option>
+          <option value="atkinson" selected>Atkinson Hyperlegible (Baja visión)</option>
+          <option value="system">Fuente nativa del portal</option>
+        </select>
+      </div>
+
+      <!-- Controles con Checkbox -->
+      <div style="border-top: 1px solid #f3f4f6; padding-top: 6px;">
+        <div class="widget-check-row">
+          <input type="checkbox" id="wFocus" checked onchange="onFocusChange(this.checked)">
+          <label for="wFocus">Anillo de foco reforzado por teclado (Tab)</label>
+        </div>
+
+        <div class="widget-check-row">
+          <input type="checkbox" id="wMask" onchange="onMaskChange(this.checked)">
+          <label for="wMask">Guía de lectura horizontal (Máscara)</label>
+        </div>
+
+        <div class="widget-check-row">
+          <input type="checkbox" id="wRedundant" checked onchange="onRedundantChange(this.checked)">
+          <label for="wRedundant">Codificación redundante (Símbolos + Tramas)</label>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="widget-btn-group">
+        <button class="btn-w-action btn-w-reset" onclick="resetWidget()">Restablecer</button>
+        <button class="btn-w-action btn-w-apply" onclick="toggleWidgetPanel()">Aplicar y Cerrar</button>
+      </div>
+
+      <div class="widget-disclaimer">
+        Adaptación del lado del usuario · Licencia MIT · Hospital Nacional Ramiro Prialé Prialé
+      </div>
+
+    </div>
+
+    <!-- BOTÓN FLOTANTE (FAB) -->
+    <button class="widget-fab" id="widgetFab" onclick="toggleWidgetPanel()" title="Herramientas de Accesibilidad OcuAdapt (Alt + A)" aria-label="Abrir panel de accesibilidad OcuAdapt">
+      <!-- Icono de Accesibilidad Universal / Visión -->
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"></path>
+        <circle cx="12" cy="12" r="3.2" fill="currentColor"></circle>
+      </svg>
+    </button>
+
+  </div>
+
+
+  <!-- SCRIPT DE INTERACTIVIDAD DEL MOCKUP -->
+  <script>
+    const body = document.getElementById('portalBody');
+    const panel = document.getElementById('widgetPanel');
+    const fab = document.getElementById('widgetFab');
+
+    // Inicializar estado por defecto del mockup
+    body.classList.add('ocu-redundant', 'ocu-atkinson', 'ocu-focus');
+
+    function toggleWidgetPanel() {
+      panel.classList.toggle('hidden');
+    }
+
+    function setMockupState(mode) {
+      document.querySelectorAll('.btn-mockup-mode').forEach(b => b.classList.remove('active'));
+
+      if (mode === 'open') {
+        document.getElementById('btnModeOpen').classList.add('active');
+        panel.classList.remove('hidden');
+        resetVisualEffects(false);
+      } else if (mode === 'closed') {
+        document.getElementById('btnModeClosed').classList.add('active');
+        panel.classList.add('hidden');
+      } else if (mode === 'adapted') {
+        document.getElementById('btnModeLowVision').classList.add('active');
+        panel.classList.remove('hidden');
+        applyHighAccessibilityState();
+      }
+    }
+
+    function applyHighAccessibilityState() {
+      document.getElementById('wPreset').value = 'lowVision';
+      document.getElementById('wContrast').value = 'inverted';
+      document.getElementById('wScale').value = '150';
+      document.getElementById('scaleVal').textContent = '150 %';
+      document.getElementById('wFont').value = 'atkinson';
+      document.getElementById('wFocus').checked = true;
+      document.getElementById('wRedundant').checked = true;
+      document.getElementById('wMask').checked = true;
+
+      body.classList.add('ocu-inverted', 'ocu-atkinson', 'ocu-focus', 'ocu-redundant', 'ocu-mask', 'ocu-scale-150');
+    }
+
+    function resetVisualEffects(full = true) {
+      body.classList.remove('ocu-inverted', 'ocu-scale-150', 'ocu-scale-200', 'ocu-mask');
+      if (full) {
+        body.classList.remove('ocu-atkinson', 'ocu-redundant', 'ocu-focus');
+        document.getElementById('wPreset').value = 'none';
+        document.getElementById('wContrast').value = 'off';
+        document.getElementById('wScale').value = '100';
+        document.getElementById('scaleVal').textContent = '100 %';
+        document.getElementById('wFont').value = 'inter';
+        document.getElementById('wFocus').checked = false;
+        document.getElementById('wRedundant').checked = false;
+        document.getElementById('wMask').checked = false;
+      }
+    }
+
+    function onPresetChange(val) {
+      if (val === 'lowVision') {
+        applyHighAccessibilityState();
+      } else if (val === 'inverted') {
+        body.classList.add('ocu-inverted');
+        document.getElementById('wContrast').value = 'inverted';
+      } else if (val === 'none') {
+        resetVisualEffects(true);
+      }
+    }
+
+    function onContrastChange(val) {
+      if (val === 'inverted') {
+        body.classList.add('ocu-inverted');
+      } else {
+        body.classList.remove('ocu-inverted');
+      }
+    }
+
+    function onScaleChange(val) {
+      document.getElementById('scaleVal').textContent = `${val} %`;
+      body.classList.remove('ocu-scale-150', 'ocu-scale-200');
+      if (val >= 180) body.classList.add('ocu-scale-200');
+      else if (val >= 140) body.classList.add('ocu-scale-150');
+    }
+
+    function onFontChange(val) {
+      body.classList.toggle('ocu-atkinson', val === 'atkinson');
+    }
+
+    function onFocusChange(checked) {
+      body.classList.toggle('ocu-focus', checked);
+    }
+
+    function onMaskChange(checked) {
+      body.classList.toggle('ocu-mask', checked);
+    }
+
+    function onRedundantChange(checked) {
+      body.classList.toggle('ocu-redundant', checked);
+    }
+
+    function resetWidget() {
+      resetVisualEffects(true);
+    }
+
+    // Ocultar barra superior para capturas de pantalla limpias
+    let toolbarHidden = false;
+    function toggleCleanCapture() {
+      const tb = document.getElementById('toolbarMockup');
+      toolbarHidden = !toolbarHidden;
+      if (toolbarHidden) {
+        tb.style.display = 'none';
+        alert('Barra superior oculta. Presione Escape para restaurarla en cualquier momento.');
+      } else {
+        tb.style.display = 'flex';
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const tb = document.getElementById('toolbarMockup');
+        tb.style.display = 'flex';
+        toolbarHidden = false;
+      }
+    });
+  </script>
+</body>
+</html>
