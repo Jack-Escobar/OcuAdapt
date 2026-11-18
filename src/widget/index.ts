@@ -121,11 +121,18 @@ class OcuAdaptWidget extends HTMLElement {
       r.step = String(step);
       r.value = String(value);
       r.setAttribute('aria-valuetext', `${value}${unit}`);
+      let timer: ReturnType<typeof setTimeout> | null = null;
       r.addEventListener('input', () => {
-        l.textContent = `${label}: ${r.value}${unit}`;
-        r.setAttribute('aria-valuetext', `${r.value}${unit}`);
+        const v = Number(r.value);
+        l.textContent = `${label}: ${v}${unit}`;
+        r.setAttribute('aria-valuetext', `${v}${unit}`);
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => on(v), 50);
       });
-      r.addEventListener('change', () => on(Number(r.value)));
+      r.addEventListener('change', () => {
+        if (timer) clearTimeout(timer);
+        on(Number(r.value));
+      });
       this.panel.append(l, r);
     };
     const chk = (id: string, label: string, value: boolean, on: (v: boolean) => void) => {

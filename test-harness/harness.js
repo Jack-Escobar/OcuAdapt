@@ -296,17 +296,35 @@
     }
     saved = /* @__PURE__ */ new WeakMap();
     touched = /* @__PURE__ */ new Set();
-    processed = /* @__PURE__ */ new WeakSet();
+    baseFontSizes = /* @__PURE__ */ new WeakMap();
     /** Aplica contraste y escala a todo el documento (o a un subárbol nuevo). */
     run(opts, subtree) {
       const scope = subtree ?? this.root.body;
       if (!scope) return;
-      const elements = [scope, ...Array.from(scope.querySelectorAll("*"))];
-      for (const el of elements) {
-        if (!(el instanceof (this.root.defaultView?.HTMLElement ?? HTMLElement))) continue;
+      const view = this.root.defaultView;
+      if (!view) return;
+      const HTMLElementClass = view.HTMLElement ?? HTMLElement;
+      const rawElements = [scope, ...Array.from(scope.querySelectorAll("*"))];
+      const htmlElements = [];
+      for (const el of rawElements) {
+        if (!(el instanceof HTMLElementClass)) continue;
+        if (SKIP_TAGS.has(el.tagName.toUpperCase()) || el.closest(`[${HOST_ATTR}]`)) continue;
+        if (!hasOwnText(el)) continue;
+        htmlElements.push(el);
+      }
+      for (const el of htmlElements) {
+        if (!this.baseFontSizes.has(el)) {
+          const cs = view.getComputedStyle(el);
+          const base = parseFloat(cs.fontSize);
+          if (Number.isFinite(base) && base > 0) {
+            this.baseFontSizes.set(el, base);
+          }
+        }
+      }
+      for (const el of htmlElements) {
         this.processElement(el, opts);
       }
-      if (opts.textScale > 100) this.relaxClipping(elements);
+      if (opts.textScale > 100) this.relaxClipping(rawElements);
     }
     /**
      * Mitigación parcial de 1.4.4/1.4.10: si al ampliar el texto un contenedor con overflow oculto
@@ -327,17 +345,17 @@
       }
     }
     processElement(el, opts) {
-      if (SKIP_TAGS.has(el.tagName.toUpperCase()) || el.closest(`[${HOST_ATTR}]`)) return;
-      if (this.processed.has(el) || !hasOwnText(el)) return;
       const view = this.root.defaultView;
       if (!view) return;
       const cs = view.getComputedStyle(el);
       if (isHidden(cs)) return;
-      this.processed.add(el);
-      if (opts.textScale > 100) {
-        const size = parseFloat(cs.fontSize);
-        if (Number.isFinite(size) && size > 0) {
-          this.setProp(el, "font-size", `${size * opts.textScale / 100}px`);
+      const baseSize = this.baseFontSizes.get(el);
+      if (baseSize !== void 0 && baseSize > 0) {
+        if (opts.textScale > 100) {
+          const scaled = Math.round(baseSize * opts.textScale / 100 * 10) / 10;
+          this.setProp(el, "font-size", `${scaled}px`);
+        } else {
+          this.restoreProp(el, "font-size");
         }
       }
       if (opts.contrastTarget > 0) {
@@ -346,10 +364,13 @@
         if (!fgRaw || !bg) return;
         const fg = compositeOver(fgRaw, bg);
         const weight = parseInt(cs.fontWeight, 10) || (cs.fontWeight === "bold" ? 700 : 400);
-        const large = isLargeText(parseFloat(cs.fontSize), weight);
+        const effectiveSize = baseSize ?? parseFloat(cs.fontSize);
+        const large = isLargeText(effectiveSize, weight);
         const target = large ? Math.min(3, opts.contrastTarget) : opts.contrastTarget;
         const fixed = adjustForeground(fg, bg, target);
         if (fixed !== fg) this.setProp(el, "color", toCss(fixed));
+      } else {
+        this.restoreProp(el, "color");
       }
     }
     setProp(el, prop, value) {
@@ -357,27 +378,48 @@
       if (!list) {
         list = [];
         this.saved.set(el, list);
-        this.touched.add(new WeakRef(el));
+        this.touched.add(el);
       }
       if (!list.some((s) => s.prop === prop)) {
         list.push({ prop, value: el.style.getPropertyValue(prop), priority: el.style.getPropertyPriority(prop) });
       }
       el.style.setProperty(prop, value, "important");
     }
+    restoreProp(el, prop) {
+      const list = this.saved.get(el);
+      if (!list) return;
+      const idx = list.findIndex((s2) => s2.prop === prop);
+      if (idx === -1) return;
+      const s = list[idx];
+      if (!s) return;
+      if (s.value) {
+        el.style.setProperty(s.prop, s.value, s.priority);
+      } else {
+        el.style.removeProperty(s.prop);
+      }
+      list.splice(idx, 1);
+      if (list.length === 0) {
+        this.saved.delete(el);
+        this.touched.delete(el);
+        if (el.getAttribute("style") === "") {
+          el.removeAttribute("style");
+        }
+      }
+    }
     /** Revierte todas las modificaciones y olvida el estado procesado. */
     restore() {
-      for (const ref of this.touched) {
-        const el = ref.deref();
-        if (!el) continue;
-        for (const s of this.saved.get(el) ?? []) {
-          if (s.value) el.style.setProperty(s.prop, s.value, s.priority);
-          else el.style.removeProperty(s.prop);
+      for (const el of Array.from(this.touched)) {
+        const list = this.saved.get(el);
+        if (list) {
+          for (const s of list) {
+            if (s.value) el.style.setProperty(s.prop, s.value, s.priority);
+            else el.style.removeProperty(s.prop);
+          }
+          this.saved.delete(el);
         }
         if (el.getAttribute("style") === "") el.removeAttribute("style");
-        this.saved.delete(el);
       }
       this.touched.clear();
-      this.processed = /* @__PURE__ */ new WeakSet();
     }
   };
   function auditContrast(doc) {

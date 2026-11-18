@@ -428,7 +428,10 @@
       font-family: 'Atkinson Hyperlegible', sans-serif !important;
     }
 
-    /* MODO ESCALADO 150% / 200% */
+    /* MODO ESCALADO 120% / 150% / 200% */
+    body.ocu-scale-120 {
+      font-size: 17px !important;
+    }
     body.ocu-scale-150 {
       font-size: 19px !important;
     }
@@ -1052,7 +1055,7 @@
     }
 
     function resetVisualEffects(full = true) {
-      body.classList.remove('ocu-inverted', 'ocu-scale-150', 'ocu-scale-200', 'ocu-mask');
+      body.classList.remove('ocu-inverted', 'ocu-scale-120', 'ocu-scale-150', 'ocu-scale-200', 'ocu-mask');
       if (full) {
         body.classList.remove('ocu-atkinson', 'ocu-redundant', 'ocu-focus');
         document.getElementById('wPreset').value = 'none';
@@ -1086,10 +1089,12 @@
     }
 
     function onScaleChange(val) {
-      document.getElementById('scaleVal').textContent = `${val} %`;
-      body.classList.remove('ocu-scale-150', 'ocu-scale-200');
-      if (val >= 180) body.classList.add('ocu-scale-200');
-      else if (val >= 140) body.classList.add('ocu-scale-150');
+      const num = Number(val);
+      document.getElementById('scaleVal').textContent = `${num} %`;
+      body.classList.remove('ocu-scale-120', 'ocu-scale-150', 'ocu-scale-200');
+      if (num >= 180) body.classList.add('ocu-scale-200');
+      else if (num >= 140) body.classList.add('ocu-scale-150');
+      else if (num >= 115) body.classList.add('ocu-scale-120');
     }
 
     function onFontChange(val) {

@@ -154,4 +154,37 @@ describe('Adapter sobre DOM (jsdom)', () => {
     ad.reset();
     expect(document.querySelector('[data-ocuadapt="reading-mask"]')).toBeNull();
   });
+
+  it('escala de texto es bidireccional, reversible y no se multiplica en elementos anidados', () => {
+    document.body.innerHTML = `
+      <div id="box">
+        <p id="p1">Texto base <span id="s1">con span anidado</span></p>
+        <p id="p2" style="font-size: 20px;">Texto con 20px en línea</p>
+      </div>
+    `;
+    const p1 = document.getElementById('p1') as HTMLElement;
+    const s1 = document.getElementById('s1') as HTMLElement;
+    const p2 = document.getElementById('p2') as HTMLElement;
+
+    const ad = new Adapter(document, { observe: false });
+
+    // Aumentar a 150%
+    ad.apply({ ...DEFAULT_PROFILE, enabled: true, textScale: 150 });
+    // En jsdom el computed base suele ser 16px
+    expect(p1.style.fontSize).toBe('24px'); // 16 * 1.5
+    expect(s1.style.fontSize).toBe('24px'); // 16 * 1.5 (NO 36px)
+    expect(p2.style.fontSize).toBe('30px'); // 20 * 1.5
+
+    // Reducir / volver a 120% (debe decrecer, nunca crecer)
+    ad.apply({ ...DEFAULT_PROFILE, enabled: true, textScale: 120 });
+    expect(p1.style.fontSize).toBe('19.2px'); // 16 * 1.2
+    expect(s1.style.fontSize).toBe('19.2px');
+    expect(p2.style.fontSize).toBe('24px');   // 20 * 1.2
+
+    // Volver a 100%
+    ad.apply({ ...DEFAULT_PROFILE, enabled: true, textScale: 100 });
+    expect(p1.style.fontSize).toBe('');
+    expect(s1.style.fontSize).toBe('');
+    expect(p2.style.fontSize).toBe('20px'); // Recupera su valor en línea original
+  });
 });

@@ -62,11 +62,32 @@ async function applyToActiveTab(p: VisualProfile): Promise<void> {
   }
 }
 
-async function update(patch: Partial<VisualProfile>, rerender = false, focusId?: string): Promise<void> {
+let updateTimer: ReturnType<typeof setTimeout> | null = null;
+let pendingPatch: Partial<VisualProfile> = {};
+
+async function flushUpdate(rerender = false, focusId?: string): Promise<void> {
+  if (updateTimer) {
+    clearTimeout(updateTimer);
+    updateTimer = null;
+  }
+  const patch = pendingPatch;
+  pendingPatch = {};
   profile = sanitizeProfile({ ...profile, ...patch });
   await saveProfile(profile);
   await applyToActiveTab(profile);
   if (rerender) render(focusId);
+}
+
+function update(patch: Partial<VisualProfile>, rerender = false, focusId?: string, debounceMs = 0): void {
+  pendingPatch = { ...pendingPatch, ...patch };
+  if (rerender || debounceMs === 0) {
+    void flushUpdate(rerender, focusId);
+    return;
+  }
+  if (updateTimer) clearTimeout(updateTimer);
+  updateTimer = setTimeout(() => {
+    void flushUpdate(false);
+  }, debounceMs);
 }
 
 function select(id: string, label: string, options: [string, string][], value: string, onChange: (v: string) => void): HTMLElement {
@@ -80,15 +101,38 @@ function select(id: string, label: string, options: [string, string][], value: s
   return el('div', {}, [el('label', { for: id }, [label]), sel]);
 }
 
-function range(id: string, label: string, min: number, max: number, step: number, value: number, unit: string, onChange: (v: number) => void): HTMLElement {
+function range(
+  id: string,
+  label: string,
+  min: number,
+  max: number,
+  step: number,
+  value: number,
+  unit: string,
+  onChange: (v: number, isFinal: boolean) => void,
+): HTMLElement {
   const out = el('output', { for: id, id: `${id}-out` }, [`${value}${unit}`]);
-  const input = el('input', { id, type: 'range', min: String(min), max: String(max), step: String(step), value: String(value), 'aria-valuetext': `${value}${unit}` });
+  const input = el('input', {
+    id,
+    type: 'range',
+    min: String(min),
+    max: String(max),
+    step: String(step),
+    value: String(value),
+    'aria-valuetext': `${value}${unit}`,
+  });
   input.addEventListener('input', () => {
     const v = Number(input.value);
     out.textContent = `${v}${unit}`;
     input.setAttribute('aria-valuetext', `${v}${unit}`);
+    onChange(v, false);
   });
-  input.addEventListener('change', () => onChange(Number(input.value)));
+  input.addEventListener('change', () => {
+    const v = Number(input.value);
+    out.textContent = `${v}${unit}`;
+    input.setAttribute('aria-valuetext', `${v}${unit}`);
+    onChange(v, true);
+  });
   return el('div', {}, [el('label', { for: id }, [label, ' ', out]), input]);
 }
 
@@ -154,7 +198,10 @@ function render(focusId?: string): void {
   const colorSet = el('fieldset', {}, [
     el('legend', {}, [t(lang, 'colorVision')]),
     select('colorVision', t(lang, 'colorVision'), cvOpts, profile.colorVision, (v) => void update({ colorVision: v as VisualProfile['colorVision'] }, true, 'colorVision')),
-    range('intensity', t(lang, 'intensity'), 0, 100, 5, profile.intensity, '%', (v) => void update({ intensity: v }, true, 'intensity')),
+    range('intensity', t(lang, 'intensity'), 0, 100, 5, profile.intensity, '%', (v, isFinal) => {
+      if (isFinal) update({ intensity: v }, true, 'intensity');
+      else update({ intensity: v }, false, undefined, 50);
+    }),
   ]);
   if (profile.colorVision !== 'normal') {
     colorSet.append(el('p', { class: 'note' }, [t(lang, 'preview')]), previewSwatches());
@@ -168,7 +215,9 @@ function render(focusId?: string): void {
     el('fieldset', {}, [
       el('legend', {}, [t(lang, 'contrast')]),
       select('contrast', t(lang, 'contrast'), ctOpts, profile.contrast, (v) => void update({ contrast: v as VisualProfile['contrast'] })),
-      range('textScale', t(lang, 'textScale'), 100, 200, 10, profile.textScale, '%', (v) => void update({ textScale: v })),
+      range('textScale', t(lang, 'textScale'), 100, 200, 10, profile.textScale, '%', (v, isFinal) => {
+        update({ textScale: v }, false, undefined, isFinal ? 0 : 40);
+      }),
       checkbox('textSpacing', t(lang, 'textSpacing'), profile.textSpacing, (v) => void update({ textSpacing: v })),
       select('font', t(lang, 'font'), ftOpts, profile.font, (v) => void update({ font: v as VisualProfile['font'] })),
     ]),

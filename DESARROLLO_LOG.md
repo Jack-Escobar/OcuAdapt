@@ -58,6 +58,12 @@ build.mjs        genera dist/ (extensión, dist/widget, dist/test-harness)
 - 2026-11-09 21:49 – MVP-0 completo (core, extensión, popup, harness, 17 pruebas). Bug corregido: precisión de color tras redondeo (4,478:1 → ≥4,5:1).
 - 2026-11-09 22:37 – El usuario revisó el MVP-0 y lo aprobó; se continúa con MVP-1.
 - 2026-11-09 22:42 – MVP-1 implementado (F4.1–F4.4). Perfil ampliado con `redundantCoding` y `excludedSites`. 29/29 pruebas, typecheck y build OK.
+- 2026-11-10 13:10 – Corrección crítica de reversibilidad en escalado de texto (1.4.4):
+  1. `DomAdapter`: implementación de `baseFontSizes` en `WeakMap` inmutable registrado en Fase 1 antes de modificar el DOM. Esto eliminó la multiplicación exponencial en elementos anidados (`p > span > strong`) y la acumulación infinita de tamaño al intentar reducir la escala.
+  2. `restoreProp`: reversión limpia de propiedades individuales al descender a 100% o cambiar niveles.
+  3. `content.ts`: guardián singleton `__ocuadapt_content_injected` para impedir inyecciones duplicadas por `executeScript` que corrompían el estado base de la página.
+  4. `popup.ts` y `widget/index.ts`: debounce y sincronización en eventos `input`/`change` en sliders para navegación fluida con flechas de teclado o ratón sin carreras asíncronas.
+  5. 30/30 pruebas unitarias en verde, `tsc --noEmit` y `npm run build` completados satisfactoriamente.
 - 2026-11-09 23:15 – Corrección de codificación redundante en la página de prueba:
   1. Activación por defecto: los presets de baja visión y daltonismo (`lowVision`, `protanopia`, `deuteranopia`, `tritanopia`) ahora incluyen `redundantCoding: true` según WCAG 1.4.1.
   2. Control visible en el banco de pruebas: se agregó casilla explícita de `Estados redundantes (icono/patrón/texto)` en el panel y se ejecuta `apply()` automáticamente al cargar.

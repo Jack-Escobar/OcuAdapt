@@ -64,8 +64,8 @@ export function effectiveBackground(el: Element): RGB | null {
 
 export class DomAdapter {
   private saved = new WeakMap<HTMLElement, Saved[]>();
-  private touched = new Set<WeakRef<HTMLElement>>();
-  private processed = new WeakSet<Element>();
+  private touched = new Set<HTMLElement>();
+  private baseFontSizes = new WeakMap<HTMLElement, number>();
 
   constructor(private root: Document) {}
 
@@ -73,12 +73,40 @@ export class DomAdapter {
   run(opts: DomPassOptions, subtree?: Element): void {
     const scope = subtree ?? this.root.body;
     if (!scope) return;
-    const elements: Element[] = [scope, ...Array.from(scope.querySelectorAll('*'))];
-    for (const el of elements) {
-      if (!(el instanceof (this.root.defaultView?.HTMLElement ?? HTMLElement))) continue;
-      this.processElement(el as HTMLElement, opts);
+    const view = this.root.defaultView;
+    if (!view) return;
+    const HTMLElementClass = view.HTMLElement ?? HTMLElement;
+
+    const rawElements: Element[] = [scope, ...Array.from(scope.querySelectorAll('*'))];
+    const htmlElements: HTMLElement[] = [];
+
+    // Filtra elementos válidos para procesar
+    for (const el of rawElements) {
+      if (!(el instanceof HTMLElementClass)) continue;
+      if (SKIP_TAGS.has(el.tagName.toUpperCase()) || el.closest(`[${HOST_ATTR}]`)) continue;
+      if (!hasOwnText(el)) continue;
+      htmlElements.push(el);
     }
-    if (opts.textScale > 100) this.relaxClipping(elements);
+
+    // Fase 1: Registrar el tamaño base original ANTES de aplicar cualquier estilo en línea.
+    // Esto previene que los hijos hereden tamaños ya ampliados de los padres y garantiza
+    // que la escala sea estrictamente proporcional y reversible.
+    for (const el of htmlElements) {
+      if (!this.baseFontSizes.has(el)) {
+        const cs = view.getComputedStyle(el);
+        const base = parseFloat(cs.fontSize);
+        if (Number.isFinite(base) && base > 0) {
+          this.baseFontSizes.set(el, base);
+        }
+      }
+    }
+
+    // Fase 2: Aplicar escala y contraste
+    for (const el of htmlElements) {
+      this.processElement(el, opts);
+    }
+
+    if (opts.textScale > 100) this.relaxClipping(rawElements);
   }
 
   /**
@@ -101,32 +129,37 @@ export class DomAdapter {
   }
 
   private processElement(el: HTMLElement, opts: DomPassOptions): void {
-    if (SKIP_TAGS.has(el.tagName.toUpperCase()) || el.closest(`[${HOST_ATTR}]`)) return;
-    if (this.processed.has(el) || !hasOwnText(el)) return;
     const view = this.root.defaultView;
     if (!view) return;
     const cs = view.getComputedStyle(el);
     if (isHidden(cs)) return;
-    this.processed.add(el);
 
-    // Tamaño primero (no depende del color)
-    if (opts.textScale > 100) {
-      const size = parseFloat(cs.fontSize);
-      if (Number.isFinite(size) && size > 0) {
-        this.setProp(el, 'font-size', `${(size * opts.textScale) / 100}px`);
+    // Tamaño de texto (WCAG 1.4.4): basado siempre en el tamaño base original
+    const baseSize = this.baseFontSizes.get(el);
+    if (baseSize !== undefined && baseSize > 0) {
+      if (opts.textScale > 100) {
+        const scaled = Math.round(((baseSize * opts.textScale) / 100) * 10) / 10;
+        this.setProp(el, 'font-size', `${scaled}px`);
+      } else {
+        // Al volver a 100% o menos, restaurar el valor original
+        this.restoreProp(el, 'font-size');
       }
     }
 
+    // Contraste (WCAG 1.4.3)
     if (opts.contrastTarget > 0) {
       const fgRaw = parseColor(cs.color);
       const bg = effectiveBackground(el);
       if (!fgRaw || !bg) return;
       const fg = compositeOver(fgRaw, bg);
       const weight = parseInt(cs.fontWeight, 10) || (cs.fontWeight === 'bold' ? 700 : 400);
-      const large = isLargeText(parseFloat(cs.fontSize), weight);
+      const effectiveSize = baseSize ?? parseFloat(cs.fontSize);
+      const large = isLargeText(effectiveSize, weight);
       const target = large ? Math.min(3, opts.contrastTarget) : opts.contrastTarget;
       const fixed = adjustForeground(fg, bg, target);
       if (fixed !== fg) this.setProp(el, 'color', toCss(fixed));
+    } else {
+      this.restoreProp(el, 'color');
     }
   }
 
@@ -135,7 +168,7 @@ export class DomAdapter {
     if (!list) {
       list = [];
       this.saved.set(el, list);
-      this.touched.add(new WeakRef(el));
+      this.touched.add(el);
     }
     if (!list.some((s) => s.prop === prop)) {
       list.push({ prop, value: el.style.getPropertyValue(prop), priority: el.style.getPropertyPriority(prop) });
@@ -143,20 +176,42 @@ export class DomAdapter {
     el.style.setProperty(prop, value, 'important');
   }
 
+  private restoreProp(el: HTMLElement, prop: string): void {
+    const list = this.saved.get(el);
+    if (!list) return;
+    const idx = list.findIndex((s) => s.prop === prop);
+    if (idx === -1) return;
+    const s = list[idx];
+    if (!s) return;
+    if (s.value) {
+      el.style.setProperty(s.prop, s.value, s.priority);
+    } else {
+      el.style.removeProperty(s.prop);
+    }
+    list.splice(idx, 1);
+    if (list.length === 0) {
+      this.saved.delete(el);
+      this.touched.delete(el);
+      if (el.getAttribute('style') === '') {
+        el.removeAttribute('style');
+      }
+    }
+  }
+
   /** Revierte todas las modificaciones y olvida el estado procesado. */
   restore(): void {
-    for (const ref of this.touched) {
-      const el = ref.deref();
-      if (!el) continue;
-      for (const s of this.saved.get(el) ?? []) {
-        if (s.value) el.style.setProperty(s.prop, s.value, s.priority);
-        else el.style.removeProperty(s.prop);
+    for (const el of Array.from(this.touched)) {
+      const list = this.saved.get(el);
+      if (list) {
+        for (const s of list) {
+          if (s.value) el.style.setProperty(s.prop, s.value, s.priority);
+          else el.style.removeProperty(s.prop);
+        }
+        this.saved.delete(el);
       }
       if (el.getAttribute('style') === '') el.removeAttribute('style');
-      this.saved.delete(el);
     }
     this.touched.clear();
-    this.processed = new WeakSet();
   }
 }
 
